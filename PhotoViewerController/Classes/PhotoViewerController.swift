@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PhotoViewerControllerDelegate {
+public protocol PhotoViewerControllerDelegate {
     
     func photoViewer(imageView: UIImageView, at index: Int)
     
@@ -26,7 +26,6 @@ protocol PhotoViewerControllerDelegate {
     
     func caption(forItemAt index: Int)->String
     
-    func initialItemIndex()->Int
 }
 
 
@@ -74,7 +73,7 @@ public class PhotoViewerController: UIViewController {
     private var numberOfActionsForItem = [Int]()
     
     private var visibleIndex: Int = 0
-    var initialItemIndex: Int = 0
+    public var initialItemIndex: Int = 0
     private var currentIndexPath: IndexPath = IndexPath.init(row: 0, section: 0)
     
     private var currentItemWithCaption: Bool = false
@@ -608,7 +607,7 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 
-class CollectionViewLayout: UICollectionViewFlowLayout {
+public class CollectionViewLayout: UICollectionViewFlowLayout {
     
     let innerSpace: CGFloat = 10.0
     
@@ -648,7 +647,7 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
     
 }
 
-class ImageCell: UICollectionViewCell{
+public class ImageCell: UICollectionViewCell{
     
     var imageView: UIImageView?
     
