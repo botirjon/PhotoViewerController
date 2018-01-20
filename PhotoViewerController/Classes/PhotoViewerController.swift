@@ -30,7 +30,7 @@ protocol PhotoViewerControllerDelegate {
 }
 
 
-class PhotoViewerController: UIViewController {
+public class PhotoViewerController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var actionBar: UIView!
@@ -90,7 +90,7 @@ class PhotoViewerController: UIViewController {
     
     
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         
         contentView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.height)
         self.view.backgroundColor = UIColor.black
@@ -101,7 +101,7 @@ class PhotoViewerController: UIViewController {
     }
     
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         collectionViewLayout = CollectionViewLayout()
@@ -127,7 +127,7 @@ class PhotoViewerController: UIViewController {
     }
     
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         let  insets = self.collectionView.contentInset
@@ -141,7 +141,7 @@ class PhotoViewerController: UIViewController {
         updateArrangement(in: actionBar, for: numberOfActionsForItem[visibleIndex])
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         if self.modalPresentationStyle == .overCurrentContext{
@@ -156,13 +156,13 @@ class PhotoViewerController: UIViewController {
         
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle{
+    override public var preferredStatusBarStyle: UIStatusBarStyle{
         
         return .lightContent
         
     }
     
-    override var prefersStatusBarHidden: Bool{
+    override public var prefersStatusBarHidden: Bool{
         return false
     }
 
@@ -516,7 +516,7 @@ class PhotoViewerController: UIViewController {
         topBar.topItem?.rightBarButtonItems = rightItems
     }
     
-    func go(toItemAt index: Int){
+    public func go(toItemAt index: Int){
         print("Going to item at index")
         collectionView.setContentOffset(CGPoint(x: CGFloat(index) * self.view.frame.size.width, y: 0), animated: true)
         visibleIndex = index
@@ -545,17 +545,17 @@ class PhotoViewerController: UIViewController {
 
 extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataSource{
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfImages // numberOfImages
     }
     
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageCell
         
@@ -565,7 +565,7 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         if cellAllocatingForTheFirstTime{
             setupInitial()
@@ -574,7 +574,7 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         print("Did display cell: ", indexPath.row)
         print("Current cell: ", visibleIndex)
     }
@@ -592,7 +592,7 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         let visibleIndexPath = calcualteVisibleIndexPath()
         
