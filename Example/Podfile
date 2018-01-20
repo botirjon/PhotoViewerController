@@ -1,0 +1,6 @@
+use_frameworks!
+target 'PhotoViewerController_Tests' do
+  pod 'PhotoViewerController', :path => '../'
+  
+  
+end
