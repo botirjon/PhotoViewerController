@@ -1,0 +1,16 @@
+PODS:
+  - PhotoViewerController (0.1.0)
+
+DEPENDENCIES:
+  - PhotoViewerController (from `../`)
+
+EXTERNAL SOURCES:
+  PhotoViewerController:
+    :path: ../
+
+SPEC CHECKSUMS:
+  PhotoViewerController: fde8ec71f089dd026fedbbc996d2245eeb8c0048
+
+PODFILE CHECKSUM: 659c466a5b77db347a25fec9b18d7037361a9d46
+
+COCOAPODS: 1.4.0

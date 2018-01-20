@@ -1,0 +1,22 @@
+{
+  "name": "PhotoViewerController",
+  "version": "0.1.0",
+  "summary": "A short description of PhotoViewerController.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/botirjon.nasridinov@gmail.com/PhotoViewerController",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "botirjon.nasridinov@gmail.com": "botirjon.nasridinov@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/botirjon.nasridinov@gmail.com/PhotoViewerController.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "PhotoViewerController/Classes/**/*"
+}

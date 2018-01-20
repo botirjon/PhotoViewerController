@@ -1,0 +1,574 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C86ED47B9938B00B01811D327632EC2 /* PhotoViewerController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BFE13638EFBCA3AC0C962F70EE8864 /* PhotoViewerController-dummy.m */; };
+		1B21225FEB49A96F8F9EE5A02787A4F5 /* Pods-PhotoViewerController_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B85DD9277D62CC0B3EC6BB3B1494854 /* Pods-PhotoViewerController_Tests-dummy.m */; };
+		22FA20F24E9849F549D295E3D752A053 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		49FABD2B0134DBB8C56EE023309D0014 /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF05CB60952CA312E242826081DDD0 /* ReplaceMe.swift */; };
+		A047D3E84F7EEF4D8885A5B959FAFA24 /* PhotoViewerController-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD029AB0A8D700FD0083BA10480002B /* PhotoViewerController-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B27AE0BFDD19C6061E9BC9ADA5C8F0C7 /* Pods-PhotoViewerController_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA00DC5F08FD816BEB9A7AC604F83E4 /* Pods-PhotoViewerController_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2D40D60ACC8D195964BD25552CC68E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		325F53DEAB225F709DA0D2119CF797C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF7C1F44A4B8A49521AD30CE10FA0433;
+			remoteInfo = PhotoViewerController;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		08A996AD3919D57096176D7C1BFE78FE /* Pods-PhotoViewerController_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PhotoViewerController_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		104C3D64C0BF75585478A81E31B4D3DD /* Pods-PhotoViewerController_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PhotoViewerController_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		1B41F50A986690CE88A04C2FB674B466 /* PhotoViewerController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PhotoViewerController-prefix.pch"; sourceTree = "<group>"; };
+		2EE9FA5629A76065131672EEF04A29AE /* Pods-PhotoViewerController_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PhotoViewerController_Tests-frameworks.sh"; sourceTree = "<group>"; };
+		4D25DD9A068F7C7B0B0D2A5A0CCA9508 /* PhotoViewerController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PhotoViewerController.xcconfig; sourceTree = "<group>"; };
+		4DE6C445A7AEF57CECC73A8A891A2708 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5BA00DC5F08FD816BEB9A7AC604F83E4 /* Pods-PhotoViewerController_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PhotoViewerController_Tests-umbrella.h"; sourceTree = "<group>"; };
+		5DD029AB0A8D700FD0083BA10480002B /* PhotoViewerController-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PhotoViewerController-umbrella.h"; sourceTree = "<group>"; };
+		634FAAD75BF7DDD93BAEC50649894A88 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6B85DD9277D62CC0B3EC6BB3B1494854 /* Pods-PhotoViewerController_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PhotoViewerController_Tests-dummy.m"; sourceTree = "<group>"; };
+		6E3AAB416AE0FC9C17183F6D47ECE108 /* Pods-PhotoViewerController_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PhotoViewerController_Tests.modulemap"; sourceTree = "<group>"; };
+		7BFF05CB60952CA312E242826081DDD0 /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReplaceMe.swift; path = PhotoViewerController/Classes/ReplaceMe.swift; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D851F37FF4C95F3C2324BBDC356B85A /* Pods-PhotoViewerController_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PhotoViewerController_Tests-resources.sh"; sourceTree = "<group>"; };
+		AE59F271DA08CA61FB9946956232DA04 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		B53AE8F98F1EEF0DB7D17C5EB5F37C0E /* Pods-PhotoViewerController_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PhotoViewerController_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		C23604DDF69AF7085BF93CC9FC698958 /* Pods-PhotoViewerController_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PhotoViewerController_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		DC1BC1E2672D3AB326F8B54F26AB3C85 /* PhotoViewerController.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = PhotoViewerController.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E1C9E931F82E6E4F6634C4EAFCA342DE /* Pods_PhotoViewerController_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PhotoViewerController_Tests.framework; path = "Pods-PhotoViewerController_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E542FCDD678FB217F1B4163E3DC9CCC1 /* PhotoViewerController.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = PhotoViewerController.modulemap; sourceTree = "<group>"; };
+		E8BFE13638EFBCA3AC0C962F70EE8864 /* PhotoViewerController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PhotoViewerController-dummy.m"; sourceTree = "<group>"; };
+		EE351500AECDFC811B52DF5B29D406BF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD941ED3914780C77F669209EDD5CAF5 /* PhotoViewerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PhotoViewerController.framework; path = PhotoViewerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A81E766710FD93D0DD7BBFE3E46D718 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22FA20F24E9849F549D295E3D752A053 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A91AFF0648415D4B21894BFF40932FDD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2D40D60ACC8D195964BD25552CC68E3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		50CA803CAAFA67CA406457F796D810A0 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				EE351500AECDFC811B52DF5B29D406BF /* Info.plist */,
+				E542FCDD678FB217F1B4163E3DC9CCC1 /* PhotoViewerController.modulemap */,
+				4D25DD9A068F7C7B0B0D2A5A0CCA9508 /* PhotoViewerController.xcconfig */,
+				E8BFE13638EFBCA3AC0C962F70EE8864 /* PhotoViewerController-dummy.m */,
+				1B41F50A986690CE88A04C2FB674B466 /* PhotoViewerController-prefix.pch */,
+				5DD029AB0A8D700FD0083BA10480002B /* PhotoViewerController-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/PhotoViewerController";
+			sourceTree = "<group>";
+		};
+		72329E46A5B7A5B4B04072C95F7489D9 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				9A478A7FB883D679CBAB6FA53521CF27 /* Pods-PhotoViewerController_Tests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				9FC55338FA5B2EE5A1AABF25E1118C3E /* Development Pods */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				89387B67032CE00AF1EB09CC5AD7022D /* Products */,
+				72329E46A5B7A5B4B04072C95F7489D9 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		89387B67032CE00AF1EB09CC5AD7022D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD941ED3914780C77F669209EDD5CAF5 /* PhotoViewerController.framework */,
+				E1C9E931F82E6E4F6634C4EAFCA342DE /* Pods_PhotoViewerController_Tests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9A478A7FB883D679CBAB6FA53521CF27 /* Pods-PhotoViewerController_Tests */ = {
+			isa = PBXGroup;
+			children = (
+				4DE6C445A7AEF57CECC73A8A891A2708 /* Info.plist */,
+				6E3AAB416AE0FC9C17183F6D47ECE108 /* Pods-PhotoViewerController_Tests.modulemap */,
+				104C3D64C0BF75585478A81E31B4D3DD /* Pods-PhotoViewerController_Tests-acknowledgements.markdown */,
+				08A996AD3919D57096176D7C1BFE78FE /* Pods-PhotoViewerController_Tests-acknowledgements.plist */,
+				6B85DD9277D62CC0B3EC6BB3B1494854 /* Pods-PhotoViewerController_Tests-dummy.m */,
+				2EE9FA5629A76065131672EEF04A29AE /* Pods-PhotoViewerController_Tests-frameworks.sh */,
+				9D851F37FF4C95F3C2324BBDC356B85A /* Pods-PhotoViewerController_Tests-resources.sh */,
+				5BA00DC5F08FD816BEB9A7AC604F83E4 /* Pods-PhotoViewerController_Tests-umbrella.h */,
+				C23604DDF69AF7085BF93CC9FC698958 /* Pods-PhotoViewerController_Tests.debug.xcconfig */,
+				B53AE8F98F1EEF0DB7D17C5EB5F37C0E /* Pods-PhotoViewerController_Tests.release.xcconfig */,
+			);
+			name = "Pods-PhotoViewerController_Tests";
+			path = "Target Support Files/Pods-PhotoViewerController_Tests";
+			sourceTree = "<group>";
+		};
+		9FC55338FA5B2EE5A1AABF25E1118C3E /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D698F250D0BFEA008B93606E65B168B7 /* PhotoViewerController */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		B83AD88E5D29CAF5F70117CEADF56989 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				AE59F271DA08CA61FB9946956232DA04 /* LICENSE */,
+				DC1BC1E2672D3AB326F8B54F26AB3C85 /* PhotoViewerController.podspec */,
+				634FAAD75BF7DDD93BAEC50649894A88 /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		D698F250D0BFEA008B93606E65B168B7 /* PhotoViewerController */ = {
+			isa = PBXGroup;
+			children = (
+				7BFF05CB60952CA312E242826081DDD0 /* ReplaceMe.swift */,
+				B83AD88E5D29CAF5F70117CEADF56989 /* Pod */,
+				50CA803CAAFA67CA406457F796D810A0 /* Support Files */,
+			);
+			name = PhotoViewerController;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5AC3FE911DB9828346566B91C0990A67 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A047D3E84F7EEF4D8885A5B959FAFA24 /* PhotoViewerController-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D442338092B0B1F649FB2959D0949056 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B27AE0BFDD19C6061E9BC9ADA5C8F0C7 /* Pods-PhotoViewerController_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		69E88FD72FFD6A502D1CC91A0CB6E501 /* Pods-PhotoViewerController_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 052220CA1BFA58DD3FEBF7A79C7C827F /* Build configuration list for PBXNativeTarget "Pods-PhotoViewerController_Tests" */;
+			buildPhases = (
+				957955CED33E70C232DA13CACE4482F3 /* Sources */,
+				A91AFF0648415D4B21894BFF40932FDD /* Frameworks */,
+				D442338092B0B1F649FB2959D0949056 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D29B9C5DA0CF6FFB6CE57EA877257E47 /* PBXTargetDependency */,
+			);
+			name = "Pods-PhotoViewerController_Tests";
+			productName = "Pods-PhotoViewerController_Tests";
+			productReference = E1C9E931F82E6E4F6634C4EAFCA342DE /* Pods_PhotoViewerController_Tests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FF7C1F44A4B8A49521AD30CE10FA0433 /* PhotoViewerController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1027A04781330F1195CDAD5A79A7A1D5 /* Build configuration list for PBXNativeTarget "PhotoViewerController" */;
+			buildPhases = (
+				11F0A323B2555F6E254077172CCA6367 /* Sources */,
+				3A81E766710FD93D0DD7BBFE3E46D718 /* Frameworks */,
+				5AC3FE911DB9828346566B91C0990A67 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoViewerController;
+			productName = PhotoViewerController;
+			productReference = FD941ED3914780C77F669209EDD5CAF5 /* PhotoViewerController.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 89387B67032CE00AF1EB09CC5AD7022D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FF7C1F44A4B8A49521AD30CE10FA0433 /* PhotoViewerController */,
+				69E88FD72FFD6A502D1CC91A0CB6E501 /* Pods-PhotoViewerController_Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		11F0A323B2555F6E254077172CCA6367 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C86ED47B9938B00B01811D327632EC2 /* PhotoViewerController-dummy.m in Sources */,
+				49FABD2B0134DBB8C56EE023309D0014 /* ReplaceMe.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		957955CED33E70C232DA13CACE4482F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B21225FEB49A96F8F9EE5A02787A4F5 /* Pods-PhotoViewerController_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D29B9C5DA0CF6FFB6CE57EA877257E47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PhotoViewerController;
+			target = FF7C1F44A4B8A49521AD30CE10FA0433 /* PhotoViewerController */;
+			targetProxy = 325F53DEAB225F709DA0D2119CF797C7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		26AE730640EA65541BEEADCFC83A8390 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B53AE8F98F1EEF0DB7D17C5EB5F37C0E /* Pods-PhotoViewerController_Tests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-PhotoViewerController_Tests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PhotoViewerController_Tests/Pods-PhotoViewerController_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PhotoViewerController_Tests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		33DA7F43A1D2FA3C74A8C8FC246E1FA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		731DC216E1A58545B559F6E0A2418060 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		764E5FDF8244D0EB8D120395CE9B8A84 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C23604DDF69AF7085BF93CC9FC698958 /* Pods-PhotoViewerController_Tests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-PhotoViewerController_Tests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PhotoViewerController_Tests/Pods-PhotoViewerController_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PhotoViewerController_Tests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		97DE34546BE32A5AFEC768F4FFBC8DB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D25DD9A068F7C7B0B0D2A5A0CCA9508 /* PhotoViewerController.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/PhotoViewerController/PhotoViewerController-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/PhotoViewerController/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/PhotoViewerController/PhotoViewerController.modulemap";
+				PRODUCT_NAME = PhotoViewerController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D53822CC3C1EAB0213A7C1C516EF236C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D25DD9A068F7C7B0B0D2A5A0CCA9508 /* PhotoViewerController.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/PhotoViewerController/PhotoViewerController-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/PhotoViewerController/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/PhotoViewerController/PhotoViewerController.modulemap";
+				PRODUCT_NAME = PhotoViewerController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		052220CA1BFA58DD3FEBF7A79C7C827F /* Build configuration list for PBXNativeTarget "Pods-PhotoViewerController_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				764E5FDF8244D0EB8D120395CE9B8A84 /* Debug */,
+				26AE730640EA65541BEEADCFC83A8390 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1027A04781330F1195CDAD5A79A7A1D5 /* Build configuration list for PBXNativeTarget "PhotoViewerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53822CC3C1EAB0213A7C1C516EF236C /* Debug */,
+				97DE34546BE32A5AFEC768F4FFBC8DB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33DA7F43A1D2FA3C74A8C8FC246E1FA6 /* Debug */,
+				731DC216E1A58545B559F6E0A2418060 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}
