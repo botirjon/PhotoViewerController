@@ -20,7 +20,7 @@ public protocol PhotoViewerControllerDelegate {
     
     func numberOfActions(forItemAt index: Int)->Int
     
-    func actionBar(button: UIButton, at position: Int)
+    func actionBar(button: UIButton, at position: Int, forItemAt index: Int)
     
     func title(forItemAt index: Int) ->String
     
@@ -194,7 +194,7 @@ public class PhotoViewerController: UIViewController {
             contentViewTapped = false
             setAlphaOnTap(alpha: 1.0)
             alphaZeroByTap = false
-            
+
         }else{
             contentViewTapped = true
             setAlphaOnTap(alpha: 0.0)
@@ -204,14 +204,14 @@ public class PhotoViewerController: UIViewController {
         print("Content Tapped!")
     }
     
-    
     private func setAlphaOnTap(alpha: CGFloat){
         UIView.animate(withDuration: shortAnimationDuration) {
             self.topBar.alpha = alpha
             self.topGuide.alpha = alpha
-            if self.numberOfActionsForItem[self.visibleIndex] != 0{
-                self.actionBar.alpha = alpha
-            }
+            
+            // if self.numberOfActionsForItem[self.visibleIndex] != 0{
+            self.actionBar.alpha = alpha
+            //}
             
             if self.currentItemWithCaption{
                 self.captionView.alpha = alpha
@@ -383,8 +383,9 @@ public class PhotoViewerController: UIViewController {
     
     /* ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...... ... ... ... ... ... ... ... ... ... */
     
-    private func configButton(at position: Int){
-        delegate?.actionBar(button: actionButtons[position], at: position)
+    private func configButton(at position: Int, forItemAt index: Int){
+        delegate?.actionBar(button: actionButtons[position], at: position, forItemAt: index)
+        
         if let image = actionButtons[position].backgroundImage(for: .normal){
             actionButtons[position].setBackgroundImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
         }
@@ -504,12 +505,12 @@ public class PhotoViewerController: UIViewController {
     private func configButtons(forItemAt index: Int){
         
         for i in 0..<numberOfActionsForItem[index]{
-            configButton(at: i)
+            configButton(at: i, forItemAt: index)
         }
         
         UIView.animate(withDuration: shortAnimationDuration) {
             if self.numberOfActionsForItem[index] == 0{
-                if self.currentItemWithCaption == false{
+                if self.currentItemWithCaption == false && self.alphaZeroByTap == true{
                     self.actionBar.alpha = 0.0
                 }
             }else{
