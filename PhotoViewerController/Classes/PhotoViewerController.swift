@@ -46,7 +46,7 @@ public class PhotoViewerController: UIViewController {
     
     
     
-    var delegate: PhotoViewerControllerDelegate?{
+    public var delegate: PhotoViewerControllerDelegate?{
         didSet{
             
             numberOfImages = delegate?.numberOfItems() ?? 0
@@ -88,6 +88,25 @@ public class PhotoViewerController: UIViewController {
      */
     
     
+    override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        var bundle: Bundle?
+        let podBundle = Bundle(for: PhotoViewerController.self)
+        if let bundleURL = podBundle.url(forResource: "PhotoViewerController", withExtension: "bundle"){
+            bundle = Bundle(url: bundleURL)
+            //            if let bundle = Bundle(url: bundleURL) {
+//
+//            } else {
+//                assertionFailure("Could not load the bundle")
+//            }
+        } else {
+            assertionFailure("Could not create a path to the bundle")
+        }
+        super.init(nibName: "PhotoViewerController", bundle: bundle)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override public func viewWillAppear(_ animated: Bool) {
         
@@ -621,7 +640,7 @@ public class CollectionViewLayout: UICollectionViewFlowLayout {
     }
     
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -636,7 +655,7 @@ public class CollectionViewLayout: UICollectionViewFlowLayout {
     
     
     
-    override var itemSize: CGSize {
+    override public var itemSize: CGSize {
         set {
             self.itemSize = CGSize(width: itemWidth(), height: itemHeight())
         }
@@ -666,12 +685,12 @@ public class ImageCell: UICollectionViewCell{
     }
     
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         var frame = imageView?.frame
         frame?.size.height = self.frame.size.height

@@ -33,9 +33,11 @@ It can be used to view a sequence of photos. Its PhotoViewerControllerDelegate s
 
   s.source_files = 'PhotoViewerController/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'PhotoViewerController' => ['PhotoViewerController/Assets/*.png']
-  # }
+  
+  s.resources = 'PhotoViewerController/Classes/*.xib'
+  s.resource_bundles = {
+     'PhotoViewerController' => ['PhotoViewerController/**/*.xib']
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
