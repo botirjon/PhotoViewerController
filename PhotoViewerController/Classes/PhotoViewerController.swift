@@ -509,7 +509,7 @@ public class PhotoViewerController: UIViewController {
         
         UIView.animate(withDuration: shortAnimationDuration) {
             if self.numberOfActionsForItem[index] == 0{
-                if currentItemWithCaption == false{
+                if self.currentItemWithCaption == false{
                     self.actionBar.alpha = 0.0
                 }
             }else{
