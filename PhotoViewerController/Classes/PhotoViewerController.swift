@@ -82,6 +82,7 @@ public class PhotoViewerController: UIViewController {
     
     private var contentViewTapped: Bool = false
     private var alphaZeroByTap = false
+    private var captionExistForCurrentItem: Bool = false
     
     
     /*
@@ -482,7 +483,6 @@ public class PhotoViewerController: UIViewController {
         if let caption = delegate?.caption(forItemAt: index){
             UIView.animate(withDuration: shortAnimationDuration, animations: {
                 if caption != ""{
-                    
                     if self.alphaZeroByTap == false{
                         self.captionView.alpha = 1.0
                     }
@@ -509,7 +509,9 @@ public class PhotoViewerController: UIViewController {
         
         UIView.animate(withDuration: shortAnimationDuration) {
             if self.numberOfActionsForItem[index] == 0{
-                self.actionBar.alpha = 0.0
+                if currentItemWithCaption == false{
+                    self.actionBar.alpha = 0.0
+                }
             }else{
                 if self.alphaZeroByTap == false{
                     self.actionBar.alpha = 1.0
