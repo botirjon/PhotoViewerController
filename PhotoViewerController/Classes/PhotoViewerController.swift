@@ -354,7 +354,7 @@ public class PhotoViewerController: UIViewController {
         
         captionView.isUserInteractionEnabled = false
         captionView.backgroundColor = dimBlackColor // UIColor(displayP3Red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
-        captionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        // captionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
     
