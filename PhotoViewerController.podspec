@@ -28,7 +28,7 @@ It can be used to view a sequence of photos. Its PhotoViewerControllerDelegate s
   s.source           = { :git => 'https://github.com/botirjon/PhotoViewerController.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
   
-  s.swift_version = '4.0'
+  s.swift_version = '3.0'
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'PhotoViewerController/Classes/**/*'
