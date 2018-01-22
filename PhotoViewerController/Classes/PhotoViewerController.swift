@@ -40,9 +40,9 @@ public class PhotoViewerController: UIViewController {
     @IBOutlet var topGuide: UIView!
     
     // constants
-    private let dimBlackColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
-    private let shortAnimationDuration: TimeInterval = 0.2
-    private let mediumAnimationDuration: TimeInterval = 0.3
+    let dimBlackColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
+    let shortAnimationDuration: TimeInterval = 0.2
+    let mediumAnimationDuration: TimeInterval = 0.3
     
     
     
@@ -56,33 +56,33 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    private var isAlreadyArranged: Bool = false
-    private var collectionViewLayout: CollectionViewLayout?
+    var isAlreadyArranged: Bool = false
+    var collectionViewLayout: CollectionViewLayout?
     
-    private var actionsCount = 0
-    private var actionButtons = [UIButton]()
+    var actionsCount = 0
+    var actionButtons = [UIButton]()
     
-    private var numberOfImages: Int = 0{
+    var numberOfImages: Int = 0{
         didSet{
             
         }
     }
     
-    private var cellAllocatingForTheFirstTime = true
+    var cellAllocatingForTheFirstTime = true
     
-    private var numberOfActionsForItem = [Int]()
+    var numberOfActionsForItem = [Int]()
     
-    private var visibleIndex: Int = 0
+    var visibleIndex: Int = 0
     public var initialItemIndex: Int = 0
-    private var currentIndexPath: IndexPath = IndexPath.init(row: 0, section: 0)
+    var currentIndexPath: IndexPath = IndexPath.init(row: 0, section: 0)
     
-    private var currentItemWithCaption: Bool = false
+    var currentItemWithCaption: Bool = false
     
-    private weak var navItem: UINavigationItem!
+    weak var navItem: UINavigationItem!
     
-    private var contentViewTapped: Bool = false
-    private var alphaZeroByTap = false
-    private var captionExistForCurrentItem: Bool = false
+    var contentViewTapped: Bool = false
+    var alphaZeroByTap = false
+    var captionExistForCurrentItem: Bool = false
     
     
     /*
@@ -188,7 +188,7 @@ public class PhotoViewerController: UIViewController {
     /* ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...... ... ... ... ... ... ... ... ... ... */
     
     
-    @objc private func handleTapGesture(sender: UITapGestureRecognizer){
+    @objc func handleTapGesture(sender: UITapGestureRecognizer){
         
         if contentViewTapped{
             contentViewTapped = false
@@ -204,7 +204,7 @@ public class PhotoViewerController: UIViewController {
         print("Content Tapped!")
     }
     
-    private func setAlphaOnTap(alpha: CGFloat){
+    func setAlphaOnTap(alpha: CGFloat){
         UIView.animate(withDuration: shortAnimationDuration) {
             self.topBar.alpha = alpha
             self.topGuide.alpha = alpha
@@ -220,9 +220,9 @@ public class PhotoViewerController: UIViewController {
     }
     
     
-    private var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
+    var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
     
-    private func handleDissmiss(ended: Bool){
+    func handleDissmiss(ended: Bool){
         if ended{
             // cancelled
             if alphaZeroByTap == false{
@@ -232,8 +232,12 @@ public class PhotoViewerController: UIViewController {
                 if currentItemWithCaption == true{
                     self.captionView.alpha = 1.0
                 }
-                if numberOfActionsForItem[visibleIndex] != 0{
+                if currentItemWithCaption == true{
                     self.actionBar.alpha = 1.0
+                }else{
+                    if numberOfActionsForItem[visibleIndex] != 0{
+                        self.actionBar.alpha = 1.0
+                    }
                 }
             }
             
@@ -251,7 +255,7 @@ public class PhotoViewerController: UIViewController {
     }
     
     
-    @objc private func handlePanGesture(sender: UIPanGestureRecognizer){
+    @objc func handlePanGesture(sender: UIPanGestureRecognizer){
         
         let _:CGFloat = 0.3
         
@@ -341,7 +345,7 @@ public class PhotoViewerController: UIViewController {
 //    }
     
     
-    private func configureCaptionView(){
+    func configureCaptionView(){
         captionLabel.lineBreakMode = .byTruncatingTail
         captionLabel.numberOfLines = 0
         captionLabel.textColor = UIColor.white
@@ -354,7 +358,7 @@ public class PhotoViewerController: UIViewController {
     }
     
     
-    private func configureTopBar(){
+    func configureTopBar(){
         topBar.translatesAutoresizingMaskIntoConstraints = false
         topGuide.backgroundColor = dimBlackColor // UIColor(displayP3Red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
         topGuide.translatesAutoresizingMaskIntoConstraints = false
@@ -366,11 +370,11 @@ public class PhotoViewerController: UIViewController {
         topBar.backgroundColor = dimBlackColor // UIColor(displayP3Red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5)
     }
     
-    private func configureActionBar(){
+     func configureActionBar(){
         actionBar.backgroundColor = dimBlackColor
     }
     
-    private func configureCollectionView(){
+     func configureCollectionView(){
         collectionView.backgroundColor = UIColor.black
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -383,7 +387,7 @@ public class PhotoViewerController: UIViewController {
     
     /* ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...... ... ... ... ... ... ... ... ... ... */
     
-    private func configButton(at position: Int, forItemAt index: Int){
+     func configButton(at position: Int, forItemAt index: Int){
         delegate?.actionBar(button: actionButtons[position], at: position, forItemAt: index)
         
         if let image = actionButtons[position].backgroundImage(for: .normal){
@@ -395,7 +399,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    private func calculateSpacing(for numberOfItems: Int, ofWidth: CGFloat, inWidth: CGFloat, withMargin: CGFloat)->CGFloat{
+     func calculateSpacing(for numberOfItems: Int, ofWidth: CGFloat, inWidth: CGFloat, withMargin: CGFloat)->CGFloat{
         
         let flexibleSpace = inWidth - (2 * ofWidth + 2 * withMargin)
         let floatingItemsCount = numberOfItems - 2
@@ -405,7 +409,7 @@ public class PhotoViewerController: UIViewController {
         return spacing
     }
     
-    private func calculateSpacing(for numberOfItems: Int, of width: CGFloat, in view: UIView, with margin: CGFloat) -> CGFloat{
+     func calculateSpacing(for numberOfItems: Int, of width: CGFloat, in view: UIView, with margin: CGFloat) -> CGFloat{
         
         let flexibleSpace = view.frame.width - (2 * width + 2 * margin)
         let floatingItemsCount = numberOfItems - 2
@@ -415,7 +419,7 @@ public class PhotoViewerController: UIViewController {
         return spacing
     }
     
-    private func makeButton(frame: CGRect)->UIButton{
+     func makeButton(frame: CGRect)->UIButton{
         let button = UIButton(frame: frame)
         button.backgroundColor = UIColor.clear
         button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -425,7 +429,7 @@ public class PhotoViewerController: UIViewController {
         return button
     }
     
-    private func arrange(numberOfItems: Int, in view: UIView){
+     func arrange(numberOfItems: Int, in view: UIView){
         
         let width: CGFloat = 25
         let margin: CGFloat = 16
@@ -448,7 +452,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    private func updateArrangement(in view: UIView, for numberOfItems: Int){
+     func updateArrangement(in view: UIView, for numberOfItems: Int){
         
         let width: CGFloat = 25
         let margin: CGFloat = 16
@@ -464,7 +468,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    private func updateSubviews(forItemAt index: Int){
+     func updateSubviews(forItemAt index: Int){
         
         configNavBarItems(forItemAt: index)
         displayCaptionForItem(at: index)
@@ -480,7 +484,7 @@ public class PhotoViewerController: UIViewController {
         print("number of action for this item: ", numberOfActionsForItem)
     }
     
-    private func displayCaptionForItem(at index: Int){
+     func displayCaptionForItem(at index: Int){
         if let caption = delegate?.caption(forItemAt: index){
             UIView.animate(withDuration: shortAnimationDuration, animations: {
                 if caption != ""{
@@ -502,7 +506,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    private func configButtons(forItemAt index: Int){
+     func configButtons(forItemAt index: Int){
         
         for i in 0..<numberOfActionsForItem[index]{
             configButton(at: i, forItemAt: index)
@@ -521,7 +525,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    private func configNavBarItems(forItemAt index: Int){
+     func configNavBarItems(forItemAt index: Int){
         
         if alphaZeroByTap == false{
             topBar.alpha = 1.0
