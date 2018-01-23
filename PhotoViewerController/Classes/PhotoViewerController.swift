@@ -516,6 +516,10 @@ public class PhotoViewerController: UIViewController {
     }
     
     
+    public func getCurrentIndex()->Int{
+        return visibleIndex
+    }
+    
     
     func setupInitial(){
         if initialItemIndex > numberOfImages - 1{
