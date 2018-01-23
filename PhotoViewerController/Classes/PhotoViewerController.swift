@@ -198,10 +198,10 @@ public class PhotoViewerController: UIViewController {
     }
     
     func setAlphaOnTap(alpha: CGFloat){
-        self.topBar.alpha = alpha
-        self.topGuide.alpha = alpha
         
         UIView.animate(withDuration: shortAnimationDuration) {
+            self.topBar.alpha = alpha
+            self.topGuide.alpha = alpha
             if alpha == 0{
                 self.actionBar.alpha = alpha
                 self.captionView.alpha = alpha
