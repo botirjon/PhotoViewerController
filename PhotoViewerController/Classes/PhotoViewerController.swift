@@ -198,19 +198,18 @@ public class PhotoViewerController: UIViewController {
     }
     
     func setAlphaOnTap(alpha: CGFloat){
+        self.topBar.alpha = alpha
+        self.topGuide.alpha = alpha
+        
         UIView.animate(withDuration: shortAnimationDuration) {
-            self.topBar.alpha = alpha
-            self.topGuide.alpha = alpha
-            if alpha == 1.0{
-                if self.numberOfActionsForItem[self.visibleIndex] != 0 && self.currentItemWithCaption{
-                    self.actionBar.alpha = alpha
-                }
-            }else{
+            if alpha == 0{
                 self.actionBar.alpha = alpha
-            }
-            
-            if self.currentItemWithCaption{
                 self.captionView.alpha = alpha
+            }else{
+                if self.currentItemWithCaption == true{
+                    self.actionBar.alpha = alpha
+                    self.captionView.alpha = alpha
+                }
             }
         }
     }
@@ -479,6 +478,7 @@ public class PhotoViewerController: UIViewController {
         }
         
         UIView.animate(withDuration: shortAnimationDuration) {
+            
             if self.numberOfActionsForItem[index] == 0{
                 if self.currentItemWithCaption == false{
                     self.actionBar.alpha = 0.0
