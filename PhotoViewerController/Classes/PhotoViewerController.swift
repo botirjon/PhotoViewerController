@@ -5,7 +5,6 @@
 //  Created by botirjon nasridinov on 16/01/2018.
 //  Copyright © 2018 INHA UNIVERSITY. All rights reserved.
 //
-
 import UIKit
 
 public protocol PhotoViewerControllerDelegate {
@@ -39,66 +38,58 @@ public class PhotoViewerController: UIViewController {
     @IBOutlet var contentView: UIView!
     @IBOutlet var topGuide: UIView!
     
+    
+    // --------------------------------------------------------------------------------------//
     // constants
+    // --------------------------------------------------------------------------------------//
+    
     let dimBlackColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
     let shortAnimationDuration: TimeInterval = 0.2
     let mediumAnimationDuration: TimeInterval = 0.3
     
     
+    // --------------------------------------------------------------------------------------//
+    // public
+    // --------------------------------------------------------------------------------------//
     
     public var delegate: PhotoViewerControllerDelegate?{
         didSet{
-            
             numberOfImages = delegate?.numberOfItems() ?? 0
             numberOfActionsForItem = Array(repeating: 0, count: numberOfImages)
-            
-            print(numberOfActionsForItem)
         }
     }
+    public var initialItemIndex: Int = 0
+    
+    
+    // --------------------------------------------------------------------------------------//
+    // private
+    // --------------------------------------------------------------------------------------//
     
     var isAlreadyArranged: Bool = false
     var collectionViewLayout: CollectionViewLayout?
-    
     var actionsCount = 0
     var actionButtons = [UIButton]()
-    
-    var numberOfImages: Int = 0{
-        didSet{
-            
-        }
-    }
-    
+    var numberOfImages: Int = 0
     var cellAllocatingForTheFirstTime = true
-    
     var numberOfActionsForItem = [Int]()
-    
     var visibleIndex: Int = 0
-    public var initialItemIndex: Int = 0
     var currentIndexPath: IndexPath = IndexPath.init(row: 0, section: 0)
-    
     var currentItemWithCaption: Bool = false
-    
-    weak var navItem: UINavigationItem!
-    
     var contentViewTapped: Bool = false
     var alphaZeroByTap = false
     var captionExistForCurrentItem: Bool = false
+    var lastOrientation: UIDeviceOrientation = UIDevice.current.orientation
+    weak var navItem: UINavigationItem!
     
     
-    /*
-     */
-    
-    
+    // --------------------------------------------------------------------------------------//
+    // init from nib
+    // --------------------------------------------------------------------------------------//
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         var bundle: Bundle?
         let podBundle = Bundle(for: PhotoViewerController.self)
         if let bundleURL = podBundle.url(forResource: "PhotoViewerController", withExtension: "bundle"){
             bundle = Bundle(url: bundleURL)
-            //            if let bundle = Bundle(url: bundleURL) {
-//
-//            } else {
-//                assertionFailure("Could not load the bundle")
-//            }
         } else {
             assertionFailure("Could not create a path to the bundle")
         }
@@ -109,14 +100,20 @@ public class PhotoViewerController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    // --------------------------------------------------------------------------------------//
+    // override lifecycle m
+    // --------------------------------------------------------------------------------------//
+    
     override public func viewWillAppear(_ animated: Bool) {
-        
         contentView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.height)
         self.view.backgroundColor = UIColor.black
-       
+        
         if cellAllocatingForTheFirstTime == false{
             setupInitial()
         }
+        
+        lastOrientation = UIDevice.current.orientation
     }
     
     
@@ -142,7 +139,6 @@ public class PhotoViewerController: UIViewController {
         collectionView.backgroundColor = UIColor.clear
         
         self.modalPresentationCapturesStatusBarAppearance = true
-
     }
     
     
@@ -153,12 +149,14 @@ public class PhotoViewerController: UIViewController {
         self.collectionView.contentInset = insets
         self.collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
         
-        UIView.animate(withDuration: 0.5) {
+        if UIDevice.current.orientation != lastOrientation{
             self.collectionView.setContentOffset(CGPoint(x: self.view.frame.size.width * CGFloat(self.visibleIndex), y: 0), animated: false)
+            self.lastOrientation = UIDevice.current.orientation
         }
-        
+    
         updateArrangement(in: actionBar, for: numberOfActionsForItem[visibleIndex])
     }
+    
     
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -166,27 +164,25 @@ public class PhotoViewerController: UIViewController {
         if self.modalPresentationStyle == .overCurrentContext{
             self.view.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         }
-        
         guard let flowLayout = collectionView.collectionViewLayout as? CollectionViewLayout else {
             return
         }
-
         flowLayout.invalidateLayout()
         
     }
     
+    
     override public var preferredStatusBarStyle: UIStatusBarStyle{
-        
         return .lightContent
-        
     }
     
     override public var prefersStatusBarHidden: Bool{
         return false
     }
-
-    /* ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...... ... ... ... ... ... ... ... ... ... */
     
+    // --------------------------------------------------------------------------------------//
+    //
+    // --------------------------------------------------------------------------------------//
     
     @objc func handleTapGesture(sender: UITapGestureRecognizer){
         
@@ -194,24 +190,24 @@ public class PhotoViewerController: UIViewController {
             contentViewTapped = false
             setAlphaOnTap(alpha: 1.0)
             alphaZeroByTap = false
-
         }else{
             contentViewTapped = true
             setAlphaOnTap(alpha: 0.0)
             alphaZeroByTap = true
         }
-        
-        print("Content Tapped!")
     }
     
     func setAlphaOnTap(alpha: CGFloat){
         UIView.animate(withDuration: shortAnimationDuration) {
             self.topBar.alpha = alpha
             self.topGuide.alpha = alpha
-            
-            // if self.numberOfActionsForItem[self.visibleIndex] != 0{
-            self.actionBar.alpha = alpha
-            //}
+            if alpha == 1.0{
+                if self.numberOfActionsForItem[self.visibleIndex] != 0 && self.currentItemWithCaption{
+                    self.actionBar.alpha = alpha
+                }
+            }else{
+                self.actionBar.alpha = alpha
+            }
             
             if self.currentItemWithCaption{
                 self.captionView.alpha = alpha
@@ -232,9 +228,9 @@ public class PhotoViewerController: UIViewController {
                 if currentItemWithCaption == true{
                     self.captionView.alpha = 1.0
                 }
+                
                 if currentItemWithCaption == true{
                     self.actionBar.alpha = 1.0
-                }else{
                     if numberOfActionsForItem[visibleIndex] != 0{
                         self.actionBar.alpha = 1.0
                     }
@@ -274,7 +270,7 @@ public class PhotoViewerController: UIViewController {
                 
                 if proportion < 1.0{
                     self.view.backgroundColor = UIColor.black.withAlphaComponent(1.0 - proportion)
-
+                    
                 }else if proportion > 1.0{
                     self.view.backgroundColor = UIColor.clear
                 }
@@ -282,11 +278,14 @@ public class PhotoViewerController: UIViewController {
                 UIView.animate(withDuration: shortAnimationDuration, animations: {
                     self.handleDissmiss(ended: false)
                 })
+            }else{
+                self.view.backgroundColor = UIColor.black
+                self.contentView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
             }
         }
         else if sender.state == UIGestureRecognizerState.ended || sender.state ==
             UIGestureRecognizerState.cancelled {
-        
+            
             if touchPoint.y - initialTouchPoint.y > 100 {
                 self.topBar.isHidden = true
                 self.topGuide.isHidden = true
@@ -309,41 +308,6 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-//    func setTitle(title:String, subtitle:String) -> UIView {
-//
-//        let titleLabel = UILabel(frame: CGRect(x: 0, y: -4, width: 0, height: 0))
-//
-//        titleLabel.backgroundColor = UIColor.clear
-//        titleLabel.textColor = UIColor.white
-//        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-//        titleLabel.text = title
-//        titleLabel.sizeToFit()
-//
-//        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 18, width: 0, height: 0))
-//        subtitleLabel.backgroundColor = UIColor.clear
-//        subtitleLabel.textColor = UIColor.white
-//        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
-//        subtitleLabel.text = subtitle
-//        subtitleLabel.sizeToFit()
-//
-//        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
-//        titleView.addSubview(titleLabel)
-//        titleView.addSubview(subtitleLabel)
-//        titleView.backgroundColor = UIColor.blue
-//
-//        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
-//
-//        if widthDiff < 0 {
-//            let newX = widthDiff / 2
-//            subtitleLabel.frame.origin.x = abs(newX)
-//        } else {
-//            let newX = widthDiff / 2
-//            titleLabel.frame.origin.x = newX
-//        }
-//
-//        return titleView
-//    }
-    
     
     func configureCaptionView(){
         captionLabel.lineBreakMode = .byTruncatingTail
@@ -353,28 +317,27 @@ public class PhotoViewerController: UIViewController {
         captionLabel.adjustsFontSizeToFitWidth = false
         
         captionView.isUserInteractionEnabled = false
-        captionView.backgroundColor = dimBlackColor // UIColor(displayP3Red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
-        // captionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        captionView.backgroundColor = dimBlackColor
     }
     
     
     func configureTopBar(){
         topBar.translatesAutoresizingMaskIntoConstraints = false
-        topGuide.backgroundColor = dimBlackColor // UIColor(displayP3Red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
+        topGuide.backgroundColor = dimBlackColor
         topGuide.translatesAutoresizingMaskIntoConstraints = false
         
         topBar.setBackgroundImage(UIImage(), for: .default)
         topBar.shadowImage = UIImage()
         topBar.tintColor = UIColor.white
         topBar.isTranslucent = true
-        topBar.backgroundColor = dimBlackColor // UIColor(displayP3Red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5)
+        topBar.backgroundColor = dimBlackColor
     }
     
-     func configureActionBar(){
+    func configureActionBar(){
         actionBar.backgroundColor = dimBlackColor
     }
     
-     func configureCollectionView(){
+    func configureCollectionView(){
         collectionView.backgroundColor = UIColor.black
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -387,7 +350,7 @@ public class PhotoViewerController: UIViewController {
     
     /* ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...... ... ... ... ... ... ... ... ... ... */
     
-     func configButton(at position: Int, forItemAt index: Int){
+    func configButton(at position: Int, forItemAt index: Int){
         delegate?.actionBar(button: actionButtons[position], at: position, forItemAt: index)
         
         if let image = actionButtons[position].backgroundImage(for: .normal){
@@ -399,7 +362,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-     func calculateSpacing(for numberOfItems: Int, ofWidth: CGFloat, inWidth: CGFloat, withMargin: CGFloat)->CGFloat{
+    func calculateSpacing(for numberOfItems: Int, ofWidth: CGFloat, inWidth: CGFloat, withMargin: CGFloat)->CGFloat{
         
         let flexibleSpace = inWidth - (2 * ofWidth + 2 * withMargin)
         let floatingItemsCount = numberOfItems - 2
@@ -409,7 +372,7 @@ public class PhotoViewerController: UIViewController {
         return spacing
     }
     
-     func calculateSpacing(for numberOfItems: Int, of width: CGFloat, in view: UIView, with margin: CGFloat) -> CGFloat{
+    func calculateSpacing(for numberOfItems: Int, of width: CGFloat, in view: UIView, with margin: CGFloat) -> CGFloat{
         
         let flexibleSpace = view.frame.width - (2 * width + 2 * margin)
         let floatingItemsCount = numberOfItems - 2
@@ -419,7 +382,7 @@ public class PhotoViewerController: UIViewController {
         return spacing
     }
     
-     func makeButton(frame: CGRect)->UIButton{
+    func makeButton(frame: CGRect)->UIButton{
         let button = UIButton(frame: frame)
         button.backgroundColor = UIColor.clear
         button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -429,7 +392,7 @@ public class PhotoViewerController: UIViewController {
         return button
     }
     
-     func arrange(numberOfItems: Int, in view: UIView){
+    func arrange(numberOfItems: Int, in view: UIView){
         
         let width: CGFloat = 25
         let margin: CGFloat = 16
@@ -452,7 +415,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-     func updateArrangement(in view: UIView, for numberOfItems: Int){
+    func updateArrangement(in view: UIView, for numberOfItems: Int){
         
         let width: CGFloat = 25
         let margin: CGFloat = 16
@@ -468,10 +431,13 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-     func updateSubviews(forItemAt index: Int){
+    func updateSubviews(forItemAt index: Int){
         
         configNavBarItems(forItemAt: index)
-        displayCaptionForItem(at: index)
+        
+        //OperationQueue.main.addOperation {
+            self.displayCaptionForItem(at: index)
+        //}
         
         numberOfActionsForItem[index] = delegate?.numberOfActions(forItemAt: index) ?? 0
         for i in 0..<actionButtons.count{
@@ -484,7 +450,7 @@ public class PhotoViewerController: UIViewController {
         print("number of action for this item: ", numberOfActionsForItem)
     }
     
-     func displayCaptionForItem(at index: Int){
+    func displayCaptionForItem(at index: Int){
         if let caption = delegate?.caption(forItemAt: index){
             UIView.animate(withDuration: shortAnimationDuration, animations: {
                 if caption != ""{
@@ -506,7 +472,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-     func configButtons(forItemAt index: Int){
+    func configButtons(forItemAt index: Int){
         
         for i in 0..<numberOfActionsForItem[index]{
             configButton(at: i, forItemAt: index)
@@ -514,7 +480,7 @@ public class PhotoViewerController: UIViewController {
         
         UIView.animate(withDuration: shortAnimationDuration) {
             if self.numberOfActionsForItem[index] == 0{
-                if self.currentItemWithCaption == false && self.alphaZeroByTap == true{
+                if self.currentItemWithCaption == false{
                     self.actionBar.alpha = 0.0
                 }
             }else{
@@ -525,7 +491,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-     func configNavBarItems(forItemAt index: Int){
+    func configNavBarItems(forItemAt index: Int){
         
         if alphaZeroByTap == false{
             topBar.alpha = 1.0
@@ -552,16 +518,12 @@ public class PhotoViewerController: UIViewController {
     
     
     func setupInitial(){
-        
-        
         if initialItemIndex > numberOfImages - 1{
             initialItemIndex = numberOfImages - 1
         }else if initialItemIndex < 0{
             initialItemIndex = 0
         }
-        
         collectionView.setContentOffset(CGPoint(x: CGFloat(initialItemIndex) * self.view.frame.size.width, y: 0), animated: false)
-        print("collection view content offset: ", collectionView.contentOffset)
         visibleIndex = initialItemIndex
         currentIndexPath = IndexPath.init(row: initialItemIndex, section: 0)
         updateSubviews(forItemAt: visibleIndex)
@@ -600,8 +562,11 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("Did display cell: ", indexPath.row)
-        print("Current cell: ", visibleIndex)
+        let visibleIndexPath = calcualteVisibleIndexPath()
+        visibleIndex = visibleIndexPath.row
+        currentIndexPath = visibleIndexPath
+        updateSubviews(forItemAt: visibleIndex)
+
     }
     
     
@@ -616,22 +581,21 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
         return visibleIndexPath
     }
     
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let visibleIndexPath = visibleCurrentCell ?? IndexPath() //calcualteVisibleIndexPath()
+//        visibleIndex = visibleIndexPath.row
+//        currentIndexPath = visibleIndexPath
+//        updateSubviews(forItemAt: visibleIndex)
+    }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
-        let visibleIndexPath = calcualteVisibleIndexPath()
-        
-        visibleIndex = visibleIndexPath.row
-        currentIndexPath = visibleIndexPath
-        
-        print("Visible index: ", visibleIndexPath.row)
-        updateSubviews(forItemAt: visibleIndex)
-        
-        print("Collection view content offset: ", collectionView.contentOffset)
+//        let visibleIndexPath = calcualteVisibleIndexPath()
+//        visibleIndex = visibleIndexPath.row
+//        currentIndexPath = visibleIndexPath
+//        updateSubviews(forItemAt: visibleIndex)
     }
     
 }
-
 
 public class CollectionViewLayout: UICollectionViewFlowLayout {
     
@@ -707,6 +671,5 @@ public class ImageCell: UICollectionViewCell{
         imageView?.frame = frame!
     }
 }
-
 
 
