@@ -29,7 +29,7 @@ It can be used to view a sequence of photos. Its PhotoViewerControllerDelegate s
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
   
   s.ios.deployment_target = '8.0'
-  # s.swift_version = '3.0'
+  s.swift_version = '3.0'
   s.source_files = 'PhotoViewerController/Classes/**/*'
   
   
