@@ -54,7 +54,7 @@ public class PhotoViewerController: UIViewController {
     
     public var delegate: PhotoViewerControllerDelegate?{
         didSet{
-            numberOfActionsForItem = Array(repeating: 0, count: delegate?.numberOfItems() ?? 0)
+            
         }
     }
     public var initialItemIndex: Int = 0
@@ -69,7 +69,6 @@ public class PhotoViewerController: UIViewController {
     var actionsCount = 0
     var actionButtons = [UIButton]()
     var cellAllocatingForTheFirstTime = true
-    var numberOfActionsForItem = [Int]()
     var visibleIndex: Int = 0
     var currentIndexPath: IndexPath = IndexPath.init(row: 0, section: 0)
     var currentItemWithCaption: Bool = false
@@ -152,7 +151,7 @@ public class PhotoViewerController: UIViewController {
             self.lastOrientation = UIDevice.current.orientation
         }
         
-        updateArrangement(in: actionBar, for: numberOfActionsForItem[visibleIndex])
+        updateArrangement(in: actionBar, for: delegate?.numberOfActions(forItemAt: visibleIndex) ?? 0)
     }
     
     
@@ -208,7 +207,7 @@ public class PhotoViewerController: UIViewController {
                     self.captionView.alpha = alpha
                     self.actionBar.alpha = alpha
                 }else{
-                    if self.numberOfActionsForItem[self.visibleIndex] != 0{
+                    if (self.delegate?.numberOfActions(forItemAt: self.visibleIndex) ?? 0) != 0{
                         self.actionBar.alpha = alpha
                     }
                 }
@@ -232,7 +231,7 @@ public class PhotoViewerController: UIViewController {
                 
                 if currentItemWithCaption == true{
                     self.actionBar.alpha = 1.0
-                    if numberOfActionsForItem[visibleIndex] != 0{
+                    if (self.delegate?.numberOfActions(forItemAt: visibleIndex) ?? 0) != 0{
                         self.actionBar.alpha = 1.0
                     }
                 }
@@ -437,12 +436,12 @@ public class PhotoViewerController: UIViewController {
         configNavBarItems(forItemAt: index)
         self.displayCaptionForItem(at: index)
         
-        numberOfActionsForItem[index] = delegate?.numberOfActions(forItemAt: index) ?? 0
+        
         for i in 0..<actionButtons.count{
             actionButtons[i].removeFromSuperview()
         }
         actionButtons = [UIButton]()
-        arrange(numberOfItems: numberOfActionsForItem[index], in: actionBar)
+        arrange(numberOfItems: self.delegate?.numberOfActions(forItemAt: index) ?? 0, in: actionBar)
         configButtons(forItemAt: index)
         
     }
@@ -471,7 +470,7 @@ public class PhotoViewerController: UIViewController {
     
     func configButtons(forItemAt index: Int){
         
-        for i in 0..<numberOfActionsForItem[index]{
+        for i in 0..<(self.delegate?.numberOfActions(forItemAt: index) ?? 0){
             configButton(at: i, forItemAt: index)
         }
         
@@ -481,7 +480,7 @@ public class PhotoViewerController: UIViewController {
                 if self.currentItemWithCaption == true{
                     self.actionBar.alpha = 1.0
                 }else{
-                    if self.numberOfActionsForItem[index] != 0{
+                    if (self.delegate?.numberOfActions(forItemAt: index) ?? 0) != 0{
                         self.actionBar.alpha = 1.0
                     }else{
                         self.actionBar.alpha = 0.0
