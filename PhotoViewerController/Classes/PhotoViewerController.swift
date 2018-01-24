@@ -149,9 +149,8 @@ public class PhotoViewerController: UIViewController {
         if UIDevice.current.orientation != lastOrientation{
             self.collectionView.setContentOffset(CGPoint(x: self.view.frame.size.width * CGFloat(self.visibleIndex), y: 0), animated: false)
             self.lastOrientation = UIDevice.current.orientation
+            updateArrangement(in: actionBar, for: delegate?.numberOfActions(forItemAt: visibleIndex) ?? 0)
         }
-        
-        updateArrangement(in: actionBar, for: delegate?.numberOfActions(forItemAt: visibleIndex) ?? 0)
     }
     
     
@@ -441,8 +440,9 @@ public class PhotoViewerController: UIViewController {
             actionButtons[i].removeFromSuperview()
         }
         actionButtons = [UIButton]()
-        arrange(numberOfItems: self.delegate?.numberOfActions(forItemAt: index) ?? 0, in: actionBar)
-        configButtons(forItemAt: index)
+        let numberOfActions = self.delegate?.numberOfActions(forItemAt: index) ?? 0
+        arrange(numberOfItems: numberOfActions, in: actionBar)
+        configButtons(forItemAt: index, numberOfActions: numberOfActions)
         
     }
     
@@ -468,9 +468,10 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    func configButtons(forItemAt index: Int){
+    
+    func configButtons(forItemAt index: Int, numberOfActions: Int){
         
-        for i in 0..<(self.delegate?.numberOfActions(forItemAt: index) ?? 0){
+        for i in 0..<numberOfActions {
             configButton(at: i, forItemAt: index)
         }
         
@@ -480,7 +481,7 @@ public class PhotoViewerController: UIViewController {
                 if self.currentItemWithCaption == true{
                     self.actionBar.alpha = 1.0
                 }else{
-                    if (self.delegate?.numberOfActions(forItemAt: index) ?? 0) != 0{
+                    if numberOfActions != 0{
                         self.actionBar.alpha = 1.0
                     }else{
                         self.actionBar.alpha = 0.0
