@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PhotoViewerController'
-  s.version          = '0.1.9'
+  s.version          = '0.2.0'
   s.summary          = 'A photo viewer controller for viewing photos.'
 
 # This description is used to generate tags and improve search results.
@@ -29,7 +29,7 @@ It can be used to view a sequence of photos. Its PhotoViewerControllerDelegate s
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
   
   s.ios.deployment_target = '8.0'
-  # s.swift_version = '3.0'
+  s.swift_version = '3.0'
   s.source_files = 'PhotoViewerController/Classes/**/*'
   
   

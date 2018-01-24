@@ -54,8 +54,7 @@ public class PhotoViewerController: UIViewController {
     
     public var delegate: PhotoViewerControllerDelegate?{
         didSet{
-            numberOfImages = delegate?.numberOfItems() ?? 0
-            numberOfActionsForItem = Array(repeating: 0, count: numberOfImages)
+            numberOfActionsForItem = Array(repeating: 0, count: delegate?.numberOfItems() ?? 0)
         }
     }
     public var initialItemIndex: Int = 0
@@ -69,7 +68,6 @@ public class PhotoViewerController: UIViewController {
     var collectionViewLayout: CollectionViewLayout?
     var actionsCount = 0
     var actionButtons = [UIButton]()
-    var numberOfImages: Int = 0
     var cellAllocatingForTheFirstTime = true
     var numberOfActionsForItem = [Int]()
     var visibleIndex: Int = 0
@@ -153,7 +151,7 @@ public class PhotoViewerController: UIViewController {
             self.collectionView.setContentOffset(CGPoint(x: self.view.frame.size.width * CGFloat(self.visibleIndex), y: 0), animated: false)
             self.lastOrientation = UIDevice.current.orientation
         }
-    
+        
         updateArrangement(in: actionBar, for: numberOfActionsForItem[visibleIndex])
     }
     
@@ -202,13 +200,17 @@ public class PhotoViewerController: UIViewController {
         UIView.animate(withDuration: shortAnimationDuration) {
             self.topBar.alpha = alpha
             self.topGuide.alpha = alpha
-            if alpha == 0{
+            if alpha == 0.0{
                 self.actionBar.alpha = alpha
                 self.captionView.alpha = alpha
             }else{
                 if self.currentItemWithCaption == true{
-                    self.actionBar.alpha = alpha
                     self.captionView.alpha = alpha
+                    self.actionBar.alpha = alpha
+                }else{
+                    if self.numberOfActionsForItem[self.visibleIndex] != 0{
+                        self.actionBar.alpha = alpha
+                    }
                 }
             }
         }
@@ -433,10 +435,7 @@ public class PhotoViewerController: UIViewController {
     func updateSubviews(forItemAt index: Int){
         
         configNavBarItems(forItemAt: index)
-        
-        //OperationQueue.main.addOperation {
-            self.displayCaptionForItem(at: index)
-        //}
+        self.displayCaptionForItem(at: index)
         
         numberOfActionsForItem[index] = delegate?.numberOfActions(forItemAt: index) ?? 0
         for i in 0..<actionButtons.count{
@@ -446,7 +445,6 @@ public class PhotoViewerController: UIViewController {
         arrange(numberOfItems: numberOfActionsForItem[index], in: actionBar)
         configButtons(forItemAt: index)
         
-        print("number of action for this item: ", numberOfActionsForItem)
     }
     
     func displayCaptionForItem(at index: Int){
@@ -479,13 +477,15 @@ public class PhotoViewerController: UIViewController {
         
         UIView.animate(withDuration: shortAnimationDuration) {
             
-            if self.numberOfActionsForItem[index] == 0{
-                if self.currentItemWithCaption == false{
-                    self.actionBar.alpha = 0.0
-                }
-            }else{
-                if self.alphaZeroByTap == false{
+            if self.alphaZeroByTap == false{
+                if self.currentItemWithCaption == true{
                     self.actionBar.alpha = 1.0
+                }else{
+                    if self.numberOfActionsForItem[index] != 0{
+                        self.actionBar.alpha = 1.0
+                    }else{
+                        self.actionBar.alpha = 0.0
+                    }
                 }
             }
         }
@@ -516,12 +516,20 @@ public class PhotoViewerController: UIViewController {
     }
     
     
-    public func getCurrentIndex()->Int{
+    public var currentItemIndex: Int{
         return visibleIndex
     }
     
     
+    public func updateData(){
+        collectionView.reloadData()
+        updateSubviews(forItemAt: visibleIndex)
+    }
+    
+    
     func setupInitial(){
+        let numberOfImages = delegate?.numberOfItems() ?? 0
+        
         if initialItemIndex > numberOfImages - 1{
             initialItemIndex = numberOfImages - 1
         }else if initialItemIndex < 0{
@@ -537,7 +545,7 @@ public class PhotoViewerController: UIViewController {
 extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataSource{
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfImages // numberOfImages
+        return delegate?.numberOfItems() ?? 0
     }
     
     
@@ -570,7 +578,6 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
         visibleIndex = visibleIndexPath.row
         currentIndexPath = visibleIndexPath
         updateSubviews(forItemAt: visibleIndex)
-
     }
     
     
@@ -584,20 +591,9 @@ extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataS
         
         return visibleIndexPath
     }
+   
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let visibleIndexPath = visibleCurrentCell ?? IndexPath() //calcualteVisibleIndexPath()
-//        visibleIndex = visibleIndexPath.row
-//        currentIndexPath = visibleIndexPath
-//        updateSubviews(forItemAt: visibleIndex)
-    }
     
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        let visibleIndexPath = calcualteVisibleIndexPath()
-//        visibleIndex = visibleIndexPath.row
-//        currentIndexPath = visibleIndexPath
-//        updateSubviews(forItemAt: visibleIndex)
-    }
     
 }
 
@@ -675,5 +671,3 @@ public class ImageCell: UICollectionViewCell{
         imageView?.frame = frame!
     }
 }
-
-
