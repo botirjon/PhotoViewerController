@@ -129,7 +129,16 @@ public class PhotoViewerController: UIViewController {
         self.view.addGestureRecognizer(pan)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(sender:)))
+        tap.numberOfTapsRequired = 1
+        
+        tap.delegate = self
         self.contentView.addGestureRecognizer(tap)
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(sender:)))
+        doubleTap.numberOfTapsRequired = 2
+        tap.require(toFail: doubleTap)
+        doubleTap.delegate = self
+        self.contentView.addGestureRecognizer(doubleTap)
         
         contentView.backgroundColor = UIColor.clear
         self.view.backgroundColor = UIColor.black
@@ -179,6 +188,12 @@ public class PhotoViewerController: UIViewController {
     // --------------------------------------------------------------------------------------//
     //
     // --------------------------------------------------------------------------------------//
+    
+    
+    @objc func handleDoubleTapGesture(sender: UITapGestureRecognizer){
+        let cell = collectionView.cellForItem(at: currentIndexPath) as! ImageCell
+        cell.handleDoubleTap(sender: sender)
+    }
     
     @objc func handleTapGesture(sender: UITapGestureRecognizer){
         
@@ -260,11 +275,11 @@ public class PhotoViewerController: UIViewController {
             initialTouchPoint = touchPoint
         } else if sender.state == UIGestureRecognizerState.changed {
             
-            if touchPoint.y - initialTouchPoint.y > 0 {
-                
+            let translation: CGFloat = touchPoint.y - initialTouchPoint.y
+            if translation > 0 {
+                                
                 self.contentView.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.contentView.frame.size.width, height: self.contentView.frame.size.height)
-                
-                let translation: CGFloat = touchPoint.y - initialTouchPoint.y
+
                 let proportion: CGFloat = translation / 20.0
                 
                 if proportion < 1.0{
@@ -507,9 +522,8 @@ public class PhotoViewerController: UIViewController {
         topBar.topItem?.rightBarButtonItems = rightItems
     }
     
-    public func go(toItemAt index: Int){
-        print("Going to item at index")
-        collectionView.setContentOffset(CGPoint(x: CGFloat(index) * self.view.frame.size.width, y: 0), animated: true)
+    public func go(toItemAt index: Int, animated: Bool){
+        collectionView.setContentOffset(CGPoint(x: CGFloat(index) * self.view.frame.size.width, y: 0), animated: animated)
         visibleIndex = index
         currentIndexPath = IndexPath.init(row: visibleIndex, section: 0)
         updateSubviews(forItemAt: index)
@@ -521,7 +535,7 @@ public class PhotoViewerController: UIViewController {
     }
     
     
-    public func updateData(){
+    public func reloadData(){
         collectionView.reloadData()
         updateSubviews(forItemAt: visibleIndex)
     }
@@ -539,6 +553,13 @@ public class PhotoViewerController: UIViewController {
         visibleIndex = initialItemIndex
         currentIndexPath = IndexPath.init(row: initialItemIndex, section: 0)
         updateSubviews(forItemAt: visibleIndex)
+    }
+}
+
+
+extension PhotoViewerController: UIGestureRecognizerDelegate{
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
     }
 }
 
@@ -640,29 +661,67 @@ public class CollectionViewLayout: UICollectionViewFlowLayout {
 public class ImageCell: UICollectionViewCell{
     
     var imageView: UIImageView?
+    var scrollView: UIScrollView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        imageView = UIImageView()
-        imageView?.contentMode = .scaleAspectFit
-        imageView?.clipsToBounds = true
-        imageView?.isUserInteractionEnabled = false
         
-        imageView?.backgroundColor = UIColor.clear
-        
-        contentView.addSubview(imageView!)
+        scrollView = makeScrollView()
+        imageView = makeImageView()
+        scrollView?.addSubview(imageView!)
+        contentView.addSubview(scrollView!)
         self.backgroundColor = UIColor.clear
         self.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+        
     }
     
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+    }
+
+    
+    func makeScrollView()->UIScrollView{
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.backgroundColor = UIColor.clear
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 0.2
+        scrollView.maximumZoomScale = 5.0
+        scrollView.backgroundColor = UIColor.clear
+        
+        return scrollView
     }
     
+    func makeImageView() -> UIImageView{
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = false
+        imageView.backgroundColor = UIColor.clear
+        return imageView
+    }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
+        layoutScrollView()
+        layoutImageView()
+    }
+    
+    func layoutScrollView(){
+        var scrollViewFrame = scrollView?.frame
+        scrollViewFrame?.size.height = self.frame.size.height
+        scrollViewFrame?.size.width = self.frame.size.width
+        scrollViewFrame?.origin.x = 0
+        scrollViewFrame?.origin.y = 0
+        scrollView?.frame = scrollViewFrame!
+        scrollView?.contentSize = self.contentView.frame.size
+    }
+    
+    func layoutImageView(){
         var frame = imageView?.frame
         frame?.size.height = self.frame.size.height
         frame?.size.width = self.frame.size.width
@@ -670,4 +729,78 @@ public class ImageCell: UICollectionViewCell{
         frame?.origin.y = 0
         imageView?.frame = frame!
     }
+    
+    
+    public func handleDoubleTap(sender: UITapGestureRecognizer){
+        let touchPoint = sender.location(in: scrollView)
+        if (scrollView?.zoomScale ?? 1.0) > 1.0{
+            scrollView?.setZoomScale(1.0, animated: true)
+        }else{
+            scrollView?.zoom(toPoint: touchPoint, scale: 3.0, animated: true)
+        }
+    }
+    
 }
+
+extension ImageCell: UIScrollViewDelegate{
+
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.imageView
+    }
+
+    public func scrollViewDidZoom(_ scrollView: UIScrollView) {
+
+        let subView = scrollView.subviews[0]
+        let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * CGFloat(0.5), 0.0)
+        let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * CGFloat(0.5), 0.0)
+        
+        subView.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX, y: scrollView.contentSize.height * 0.5 + offsetY)
+    }
+
+
+    public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        if scale <= 1.0{
+            UIView.animate(withDuration: 0.2, animations: {
+                view?.transform = CGAffineTransform.identity
+            })
+        }
+    }
+}
+
+
+extension UIScrollView{
+    
+    func zoom(toPoint zoomPoint : CGPoint, scale : CGFloat, animated : Bool) {
+        var scale = CGFloat.minimum(scale, maximumZoomScale)
+        scale = CGFloat.maximum(scale, self.minimumZoomScale)
+        
+        var translatedZoomPoint : CGPoint = .zero
+        translatedZoomPoint.x = zoomPoint.x + contentOffset.x
+        translatedZoomPoint.y = zoomPoint.y + contentOffset.y
+        
+        let zoomFactor = 1.0 / zoomScale
+        
+        translatedZoomPoint.x *= zoomFactor
+        translatedZoomPoint.y *= zoomFactor
+        
+        var destinationRect : CGRect = .zero
+        destinationRect.size.width = frame.width / scale
+        destinationRect.size.height = frame.height / scale
+        destinationRect.origin.x = translatedZoomPoint.x - destinationRect.width * 0.5
+        destinationRect.origin.y = translatedZoomPoint.y - destinationRect.height * 0.5
+        
+        if animated {
+            UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.6, options: [.allowUserInteraction], animations: {
+                self.zoom(to: destinationRect, animated: false)
+            }, completion: {
+                completed in
+                if let delegate = self.delegate, delegate.responds(to: #selector(UIScrollViewDelegate.scrollViewDidEndZooming(_:with:atScale:))), let view = delegate.viewForZooming?(in: self) {
+                    delegate.scrollViewDidEndZooming!(self, with: view, atScale: scale)
+                }
+            })
+        } else {
+            zoom(to: destinationRect, animated: false)
+        }
+    }
+}
+
