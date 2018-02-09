@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -31,7 +32,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="09P-MQ-NgS">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="659"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="vM9-pM-Zbh">
                                 <size key="itemSize" width="50" height="50"/>
@@ -43,7 +44,7 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="09P-MQ-NgS" secondAttribute="bottom" id="B39-XP-fcg"/>
+                        <constraint firstAttribute="bottomMargin" secondItem="09P-MQ-NgS" secondAttribute="bottom" id="B39-XP-fcg"/>
                         <constraint firstAttribute="trailing" secondItem="09P-MQ-NgS" secondAttribute="trailing" id="NWv-L6-QhO"/>
                         <constraint firstItem="09P-MQ-NgS" firstAttribute="top" secondItem="b2D-MJ-qU2" secondAttribute="top" id="juh-0P-Sk1"/>
                         <constraint firstItem="09P-MQ-NgS" firstAttribute="leading" secondItem="b2D-MJ-qU2" secondAttribute="leading" id="u8G-28-RQn"/>
@@ -89,24 +90,21 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Oy-Jl-7KB">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="tmq-gq-ayc"/>
-                    </constraints>
                 </view>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="omb-gG-iTM" secondAttribute="bottom" id="0F0-iY-Jh7"/>
+                <constraint firstAttribute="bottomMargin" secondItem="omb-gG-iTM" secondAttribute="bottom" id="0F0-iY-Jh7"/>
                 <constraint firstItem="omb-gG-iTM" firstAttribute="top" secondItem="qM5-HC-ZpX" secondAttribute="bottom" id="1gf-9a-373"/>
                 <constraint firstAttribute="trailing" secondItem="hrn-SO-tlo" secondAttribute="trailing" id="4rQ-bb-kzx"/>
                 <constraint firstItem="4Oy-Jl-7KB" firstAttribute="top" secondItem="orh-Fh-Wbn" secondAttribute="top" id="84R-8b-U4j"/>
                 <constraint firstAttribute="bottom" secondItem="b2D-MJ-qU2" secondAttribute="bottom" id="Bde-OE-NmO"/>
-                <constraint firstItem="omb-gG-iTM" firstAttribute="top" secondItem="b2D-MJ-qU2" secondAttribute="bottom" constant="-44" id="EFl-dk-mTs"/>
                 <constraint firstAttribute="trailing" secondItem="b2D-MJ-qU2" secondAttribute="trailing" id="HZf-Vs-klM"/>
                 <constraint firstItem="b2D-MJ-qU2" firstAttribute="top" secondItem="orh-Fh-Wbn" secondAttribute="top" id="IGM-1z-ij5"/>
                 <constraint firstItem="hrn-SO-tlo" firstAttribute="leading" secondItem="orh-Fh-Wbn" secondAttribute="leading" id="IiN-V3-Qy3"/>
+                <constraint firstItem="hrn-SO-tlo" firstAttribute="top" secondItem="4Oy-Jl-7KB" secondAttribute="bottom" id="Jie-Kt-HP2"/>
                 <constraint firstAttribute="trailing" secondItem="qM5-HC-ZpX" secondAttribute="trailing" id="N1B-ax-qbc"/>
                 <constraint firstItem="qM5-HC-ZpX" firstAttribute="top" relation="greaterThanOrEqual" secondItem="orh-Fh-Wbn" secondAttribute="centerY" id="UOU-Tw-Jrw"/>
-                <constraint firstItem="hrn-SO-tlo" firstAttribute="top" secondItem="4Oy-Jl-7KB" secondAttribute="bottom" id="Vk9-hy-NEa"/>
+                <constraint firstItem="hrn-SO-tlo" firstAttribute="top" secondItem="orh-Fh-Wbn" secondAttribute="topMargin" id="Vk9-hy-NEa"/>
                 <constraint firstItem="qM5-HC-ZpX" firstAttribute="leading" secondItem="orh-Fh-Wbn" secondAttribute="leading" id="WmL-YM-UbV"/>
                 <constraint firstItem="4Oy-Jl-7KB" firstAttribute="leading" secondItem="orh-Fh-Wbn" secondAttribute="leading" id="a4i-Fs-6rw"/>
                 <constraint firstItem="b2D-MJ-qU2" firstAttribute="leading" secondItem="orh-Fh-Wbn" secondAttribute="leading" id="iOT-hJ-OHj"/>

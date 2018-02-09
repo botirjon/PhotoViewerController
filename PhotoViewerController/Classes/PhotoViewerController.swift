@@ -78,6 +78,7 @@ public class PhotoViewerController: UIViewController {
     var lastOrientation: UIDeviceOrientation = UIDevice.current.orientation
     weak var navItem: UINavigationItem!
     
+    var lastStatusBarStyle: UIStatusBarStyle?
     
     // --------------------------------------------------------------------------------------//
     // init from nib
@@ -111,6 +112,18 @@ public class PhotoViewerController: UIViewController {
         }
         
         lastOrientation = UIDevice.current.orientation
+        
+        // remember the entry status bar style
+        lastStatusBarStyle = UIApplication.shared.statusBarStyle
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+    
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        // restore the status bar style to entry level
+        if let style = lastStatusBarStyle{
+            UIApplication.shared.statusBarStyle = style
+        }
     }
     
     
@@ -250,17 +263,12 @@ public class PhotoViewerController: UIViewController {
                     }
                 }
             }
-            
-            UIApplication.shared.statusBarStyle = .lightContent
-            
         }else{
             // began
             self.actionBar.alpha = 0.0
             self.topBar.alpha = 0.0
             self.topGuide.alpha = 0.0
             self.captionView.alpha = 0.0
-            
-            UIApplication.shared.statusBarStyle = .default
         }
     }
     
@@ -277,7 +285,7 @@ public class PhotoViewerController: UIViewController {
             
             let translation: CGFloat = touchPoint.y - initialTouchPoint.y
             if translation > 0 {
-                                
+                
                 self.contentView.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.contentView.frame.size.width, height: self.contentView.frame.size.height)
 
                 let proportion: CGFloat = translation / 20.0
@@ -349,6 +357,16 @@ public class PhotoViewerController: UIViewController {
     
     func configureActionBar(){
         actionBar.backgroundColor = dimBlackColor
+        
+        if #available(iOS 9.0, *) {
+            actionBar.translatesAutoresizingMaskIntoConstraints = false
+            actionBar.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+            actionBar.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        } else {
+            // Fallback earlier versions
+        }
+        
+        
     }
     
     func configureCollectionView(){
