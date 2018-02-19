@@ -37,6 +37,8 @@ public class PhotoViewerController: UIViewController {
     @IBOutlet var captionView: UIView!
     @IBOutlet var contentView: UIView!
     @IBOutlet var topGuide: UIView!
+    @IBOutlet var actionBarContainer: UIView!
+    @IBOutlet var captionViewContainer: UIView!
     
     
     // --------------------------------------------------------------------------------------//
@@ -67,7 +69,7 @@ public class PhotoViewerController: UIViewController {
     var isAlreadyArranged: Bool = false
     var collectionViewLayout: CollectionViewLayout?
     var actionsCount = 0
-    var actionButtons = [UIButton]()
+    var actionButtons = [EasyToClickButton]()
     var cellAllocatingForTheFirstTime = true
     var visibleIndex: Int = 0
     var currentIndexPath: IndexPath = IndexPath.init(row: 0, section: 0)
@@ -134,8 +136,10 @@ public class PhotoViewerController: UIViewController {
         collectionView.collectionViewLayout = collectionViewLayout!
         
         configureTopBar()
+        configureCaptionViewContainer()
         configureCaptionView()
         configureCollectionView()
+        configureActionBarContainer()
         configureActionBar()
         
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(sender:)))
@@ -227,15 +231,15 @@ public class PhotoViewerController: UIViewController {
             self.topBar.alpha = alpha
             self.topGuide.alpha = alpha
             if alpha == 0.0{
-                self.actionBar.alpha = alpha
-                self.captionView.alpha = alpha
+                self.actionBarContainer.alpha = alpha
+                self.captionViewContainer.alpha = alpha
             }else{
                 if self.currentItemWithCaption == true{
-                    self.captionView.alpha = alpha
-                    self.actionBar.alpha = alpha
+                    self.captionViewContainer.alpha = alpha
+                    self.actionBarContainer.alpha = alpha
                 }else{
                     if (self.delegate?.numberOfActions(forItemAt: self.visibleIndex) ?? 0) != 0{
-                        self.actionBar.alpha = alpha
+                        self.actionBarContainer.alpha = alpha
                     }
                 }
             }
@@ -253,11 +257,11 @@ public class PhotoViewerController: UIViewController {
                 self.topGuide.alpha = 1.0
                 
                 if currentItemWithCaption == true{
-                    self.captionView.alpha = 1.0
+                    self.captionViewContainer.alpha = 1.0
                 }
                 
                 if currentItemWithCaption == true{
-                    self.actionBar.alpha = 1.0
+                    self.actionBarContainer.alpha = 1.0
                     if (self.delegate?.numberOfActions(forItemAt: visibleIndex) ?? 0) != 0{
                         self.actionBar.alpha = 1.0
                     }
@@ -265,10 +269,10 @@ public class PhotoViewerController: UIViewController {
             }
         }else{
             // began
-            self.actionBar.alpha = 0.0
+            self.actionBarContainer.alpha = 0.0
             self.topBar.alpha = 0.0
             self.topGuide.alpha = 0.0
-            self.captionView.alpha = 0.0
+            self.captionViewContainer.alpha = 0.0
         }
     }
     
@@ -330,6 +334,9 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
+    func configureCaptionViewContainer() {
+        captionViewContainer.backgroundColor = dimBlackColor
+    }
     
     func configureCaptionView(){
         captionLabel.lineBreakMode = .byTruncatingTail
@@ -339,7 +346,11 @@ public class PhotoViewerController: UIViewController {
         captionLabel.adjustsFontSizeToFitWidth = false
         
         captionView.isUserInteractionEnabled = false
-        captionView.backgroundColor = dimBlackColor
+        captionView.backgroundColor = UIColor.clear
+        captionView.translatesAutoresizingMaskIntoConstraints = false
+        let left = NSLayoutConstraint(item: captionView, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .leftMargin, multiplier: 1, constant: 0)
+        let right = NSLayoutConstraint(item: captionView, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .rightMargin, multiplier: 1, constant: 0)
+        self.view.addConstraints([left, right])
     }
     
     
@@ -355,18 +366,18 @@ public class PhotoViewerController: UIViewController {
         topBar.backgroundColor = dimBlackColor
     }
     
+    func configureActionBarContainer() {
+        actionBarContainer.backgroundColor = dimBlackColor
+    }
+    
     func configureActionBar(){
-        actionBar.backgroundColor = dimBlackColor
+        actionBar.backgroundColor = UIColor.clear
+        actionBar.translatesAutoresizingMaskIntoConstraints = false
         
-        if #available(iOS 9.0, *) {
-            actionBar.translatesAutoresizingMaskIntoConstraints = false
-            actionBar.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
-            actionBar.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
-        } else {
-            // Fallback earlier versions
-        }
+        let left = NSLayoutConstraint(item: actionBar, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .leftMargin, multiplier: 1, constant: 0)
+        let right = NSLayoutConstraint(item: actionBar, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .rightMargin, multiplier: 1, constant: 0)
         
-        
+        self.view.addConstraints([left, right])
     }
     
     func configureCollectionView(){
@@ -414,11 +425,10 @@ public class PhotoViewerController: UIViewController {
         return spacing
     }
     
-    func makeButton(frame: CGRect)->UIButton{
-        let button = UIButton(frame: frame)
+    func makeButton(frame: CGRect)->EasyToClickButton{
+        let button = EasyToClickButton(frame: frame) // UIButton(frame: frame)
         button.backgroundColor = UIColor.clear
         button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-        button.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         button.tintColor = UIColor.white
         
         return button
@@ -426,8 +436,8 @@ public class PhotoViewerController: UIViewController {
     
     func arrange(numberOfItems: Int, in view: UIView){
         
-        let width: CGFloat = 25
-        let margin: CGFloat = 16
+        let width: CGFloat = 30
+        let margin: CGFloat = 0
         
         let spacing = calculateSpacing(for: numberOfItems, of: width, in: actionBar, with: margin)
         let topMargin = (view.frame.height - width) / 2
@@ -449,8 +459,8 @@ public class PhotoViewerController: UIViewController {
     
     func updateArrangement(in view: UIView, for numberOfItems: Int){
         
-        let width: CGFloat = 25
-        let margin: CGFloat = 16
+        let width: CGFloat = 30
+        let margin: CGFloat = 0
         
         let spacing = calculateSpacing(for: numberOfItems, of: width, in: view, with: margin)
         let topMargin = (view.frame.height - width ) / 2
@@ -472,7 +482,7 @@ public class PhotoViewerController: UIViewController {
         for i in 0..<actionButtons.count{
             actionButtons[i].removeFromSuperview()
         }
-        actionButtons = [UIButton]()
+        actionButtons = [EasyToClickButton]()
         let numberOfActions = self.delegate?.numberOfActions(forItemAt: index) ?? 0
         arrange(numberOfItems: numberOfActions, in: actionBar)
         configButtons(forItemAt: index, numberOfActions: numberOfActions)
@@ -484,19 +494,19 @@ public class PhotoViewerController: UIViewController {
             UIView.animate(withDuration: shortAnimationDuration, animations: {
                 if caption != ""{
                     if self.alphaZeroByTap == false{
-                        self.captionView.alpha = 1.0
+                        self.captionViewContainer.alpha = 1.0
                     }
                     self.captionLabel.text = caption
                     self.currentItemWithCaption = true
                 }else{
                     self.currentItemWithCaption = false
-                    self.captionView.alpha = 0.0
+                    self.captionViewContainer.alpha = 0.0
                 }
             })
         }else{
             UIView.animate(withDuration: shortAnimationDuration, animations: {
                 self.currentItemWithCaption = false
-                self.captionView.alpha = 0.0
+                self.captionViewContainer.alpha = 0.0
             })
         }
     }
@@ -512,12 +522,12 @@ public class PhotoViewerController: UIViewController {
             
             if self.alphaZeroByTap == false{
                 if self.currentItemWithCaption == true{
-                    self.actionBar.alpha = 1.0
+                    self.actionBarContainer.alpha = 1.0
                 }else{
                     if numberOfActions != 0{
-                        self.actionBar.alpha = 1.0
+                        self.actionBarContainer.alpha = 1.0
                     }else{
-                        self.actionBar.alpha = 0.0
+                        self.actionBarContainer.alpha = 0.0
                     }
                 }
             }
@@ -822,3 +832,11 @@ extension UIScrollView{
     }
 }
 
+class EasyToClickButton : UIButton {
+    override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let relativeFrame = self.bounds
+        let hitTestEdgeInsets = UIEdgeInsetsMake(-10, -10, -10, -10)
+        let hitFrame = UIEdgeInsetsInsetRect(relativeFrame, hitTestEdgeInsets)
+        return hitFrame.contains(point)
+    }
+}
