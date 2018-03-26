@@ -39,7 +39,7 @@ public class PhotoViewerController: UIViewController {
     @IBOutlet var topGuide: UIView!
     @IBOutlet var actionBarContainer: UIView!
     @IBOutlet var captionViewContainer: UIView!
-    
+    @IBOutlet var topGuideHeight: NSLayoutConstraint!
     
     // --------------------------------------------------------------------------------------//
     // constants
@@ -118,6 +118,11 @@ public class PhotoViewerController: UIViewController {
         // remember the entry status bar style
         lastStatusBarStyle = UIApplication.shared.statusBarStyle
         UIApplication.shared.statusBarStyle = .lightContent
+        
+        if !UIApplication.shared.isStatusBarHidden {
+            topGuideHeight.constant = UIApplication.shared.statusBarFrame.size.height
+        }
+        
     }
     
     
@@ -126,6 +131,8 @@ public class PhotoViewerController: UIViewController {
         if let style = lastStatusBarStyle{
             UIApplication.shared.statusBarStyle = style
         }
+        
+        topGuideHeight.constant = 20
     }
     
     
