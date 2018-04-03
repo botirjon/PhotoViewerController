@@ -116,7 +116,7 @@ public class PhotoViewerController: UIViewController {
         lastOrientation = UIDevice.current.orientation
         
         // remember the entry status bar style
-        lastStatusBarStyle = UIApplication.shared.statusBarStyle
+        lastStatusBarStyle = UIApplication.shared.statusBarStyle  
         UIApplication.shared.statusBarStyle = .lightContent
         
         if !UIApplication.shared.isStatusBarHidden {
