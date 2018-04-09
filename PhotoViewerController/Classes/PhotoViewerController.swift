@@ -116,7 +116,8 @@ public class PhotoViewerController: UIViewController {
         lastOrientation = UIDevice.current.orientation
         
         // remember the entry status bar style
-        lastStatusBarStyle = UIApplication.shared.statusBarStyle  
+        lastStatusBarStyle = UIApplication.shared.statusBarStyle
+        
         UIApplication.shared.statusBarStyle = .lightContent
         
         if !UIApplication.shared.isStatusBarHidden {
@@ -326,6 +327,11 @@ public class PhotoViewerController: UIViewController {
                     self.topBar.isHidden = false
                     self.topGuide.isHidden = false
                     
+                    if let cell = self.collectionView.cellForItem(at: self.currentIndexPath) as? ImageCell, let scrollView = cell.scrollView {
+                        if scrollView.zoomScale > 1.0 {
+                             scrollView.setZoomScale(1.0, animated: false)
+                        }
+                    }
                 })
             } else {
                 
