@@ -285,6 +285,20 @@ public class PhotoViewerController: UIViewController {
     }
     
     
+    public func selfDismiss() {
+        self.dismiss(animated: true, completion: {
+            self.topBar.isHidden = false
+            self.topGuide.isHidden = false
+            
+            if let cell = self.collectionView.cellForItem(at: self.currentIndexPath) as? ImageCell, let scrollView = cell.scrollView {
+                if scrollView.zoomScale > 1.0 {
+                    scrollView.setZoomScale(1.0, animated: false)
+                }
+            }
+        })
+    }
+    
+    
     @objc func handlePanGesture(sender: UIPanGestureRecognizer){
         
         let _:CGFloat = 0.3
@@ -323,16 +337,18 @@ public class PhotoViewerController: UIViewController {
             if touchPoint.y - initialTouchPoint.y > 100 {
                 self.topBar.isHidden = true
                 self.topGuide.isHidden = true
-                self.dismiss(animated: true, completion: {
-                    self.topBar.isHidden = false
-                    self.topGuide.isHidden = false
-                    
-                    if let cell = self.collectionView.cellForItem(at: self.currentIndexPath) as? ImageCell, let scrollView = cell.scrollView {
-                        if scrollView.zoomScale > 1.0 {
-                             scrollView.setZoomScale(1.0, animated: false)
-                        }
-                    }
-                })
+                
+                self.selfDismiss()
+//                self.dismiss(animated: true, completion: {
+//                    self.topBar.isHidden = false
+//                    self.topGuide.isHidden = false
+//
+//                    if let cell = self.collectionView.cellForItem(at: self.currentIndexPath) as? ImageCell, let scrollView = cell.scrollView {
+//                        if scrollView.zoomScale > 1.0 {
+//                             scrollView.setZoomScale(1.0, animated: false)
+//                        }
+//                    }
+//                })
             } else {
                 
                 UIView.animate(withDuration: shortAnimationDuration, animations: {
