@@ -134,6 +134,7 @@ public class PhotoViewerController: UIViewController {
         }
         
         topGuideHeight.constant = 20
+        restoreIdentity()
     }
     
     
@@ -284,17 +285,20 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
+    public func restoreIdentity() {
+        self.topBar.isHidden = false
+        self.topGuide.isHidden = false
+        
+        if let cell = self.collectionView.cellForItem(at: self.currentIndexPath) as? ImageCell, let scrollView = cell.scrollView {
+            if scrollView.zoomScale > 1.0 {
+                scrollView.setZoomScale(1.0, animated: false)
+            }
+        }
+    }
     
     public func selfDismiss() {
         self.dismiss(animated: true, completion: {
-            self.topBar.isHidden = false
-            self.topGuide.isHidden = false
-            
-            if let cell = self.collectionView.cellForItem(at: self.currentIndexPath) as? ImageCell, let scrollView = cell.scrollView {
-                if scrollView.zoomScale > 1.0 {
-                    scrollView.setZoomScale(1.0, animated: false)
-                }
-            }
+            restoreIdentity()
         })
     }
     
@@ -339,16 +343,7 @@ public class PhotoViewerController: UIViewController {
                 self.topGuide.isHidden = true
                 
                 self.selfDismiss()
-//                self.dismiss(animated: true, completion: {
-//                    self.topBar.isHidden = false
-//                    self.topGuide.isHidden = false
-//
-//                    if let cell = self.collectionView.cellForItem(at: self.currentIndexPath) as? ImageCell, let scrollView = cell.scrollView {
-//                        if scrollView.zoomScale > 1.0 {
-//                             scrollView.setZoomScale(1.0, animated: false)
-//                        }
-//                    }
-//                })
+
             } else {
                 
                 UIView.animate(withDuration: shortAnimationDuration, animations: {
