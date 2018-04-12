@@ -298,7 +298,7 @@ public class PhotoViewerController: UIViewController {
     
     public func selfDismiss() {
         self.dismiss(animated: true, completion: {
-            restoreIdentity()
+            self.restoreIdentity()
         })
     }
     
