@@ -79,6 +79,11 @@ public class PhotoViewerController: UIViewController {
     var captionExistForCurrentItem: Bool = false
     var lastOrientation: UIDeviceOrientation = UIDevice.current.orientation
     weak var navItem: UINavigationItem!
+    var statusBarHidden: Bool = false {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
     
     var lastStatusBarStyle: UIStatusBarStyle?
     
@@ -208,7 +213,11 @@ public class PhotoViewerController: UIViewController {
     }
     
     override public var prefersStatusBarHidden: Bool{
-        return false
+        return statusBarHidden
+    }
+
+    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .fade
     }
     
     // --------------------------------------------------------------------------------------//
@@ -239,6 +248,8 @@ public class PhotoViewerController: UIViewController {
         UIView.animate(withDuration: shortAnimationDuration) {
             self.topBar.alpha = alpha
             self.topGuide.alpha = alpha
+            self.statusBarHidden = alpha == 0.0
+            
             if alpha == 0.0{
                 self.actionBarContainer.alpha = alpha
                 self.captionViewContainer.alpha = alpha
