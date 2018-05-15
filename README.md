@@ -29,36 +29,36 @@ Example:
 ```ruby
 extension ViewController: PhotoViewerControllerDelegate{
 
-    func photoViewer(imageView: UIImageView, at index: Int) {
-        // configure the image view for item at the given index
+    func numberOfItems(in photoViewer: PhotoViewerController) -> Int {
+        // provide the number of items to display.
     }
 
-    func numberOfItems() -> Int {
-        // return number of items to be displayed
+    func numberOfActions(in photoViewer: PhotoViewerController, forItemAt index: Int) -> Int {
+        // provide the number of actions for an item diplayed at index in photoViewer.
     }
 
-    func topBarLeftItems(forItemAt index: Int) -> [UIBarButtonItem] {
-        // provide an array of left bar button item for top bar
+    func photoViewer(_ photoViewer: PhotoViewerController, imageView: UIImageView, at index: Int) {
+        // customize the imageView provided for an item to display at index in photoViewer.
     }
 
-    func topBarRightItems(forItemAt index: Int) -> [UIBarButtonItem] {
-        // provide an array of right bar button item for top bar
+    func photoViewer(_ photoViewer: PhotoViewerController, topBarLeftItemsAt index: Int) -> [UIBarButtonItem] {
+        // provide an array of left top bar items for the the item to display at index.
     }
 
-    func numberOfActions(forItemAt index: Int) -> Int {
-        // return number of actions you want apply on the item at the given index
+    func photoViewer(_ photoViewer: PhotoViewerController, topBarRightItemsAt index: Int) -> [UIBarButtonItem] {
+        // provide an array of right top bar items for the the item to display at index.
     }
 
-    func actionBar(button: UIButton, at position: Int) {
-        // configure the button at the given position for the item at index
+    func photoViewer(_ photoViewer: PhotoViewerController, actionBarButton button: UIButton, at position: Int, forItemAt index: Int) {
+        // customize the provided action button at position for an item to display at index in photoViewer.
     }
 
-    func title(forItemAt index: Int) -> String {
-        // give title for the item at the given index
+    func photoViewer(_ photoViewer: PhotoViewerController, titleForItemAt index: Int) -> String {
+        // provide a title for an item to display at index in photoViewer.
     }
 
-    func caption(forItemAt index: Int) -> String {
-        // return caption for the item at the given index
+    func photoViewer(_ photoViewer: PhotoViewerController, captionForItemAt index: Int) -> String {
+        // provide a caption text for an item to display at index in photoViewer.
     }
 }
 ```
@@ -82,7 +82,7 @@ pod 'PhotoViewerController'
 
 ## Author
 
-botirjon.nasridinov@gmail.com, botirjon.nasridinov@gmail.com
+Botirjon Nasridinov, botirjon.nasridinov@gmail.com
 
 ## License
 

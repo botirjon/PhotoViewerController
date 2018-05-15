@@ -9,22 +9,73 @@ import UIKit
 
 public protocol PhotoViewerControllerDelegate {
     
-    func photoViewer(imageView: UIImageView, at index: Int)
+    // MARK: - Data Source
     
-    func numberOfItems()->Int
+    /**
+     Provides the action bar button at a position for an item at an index for customization in a photo viewer.
+     - parameter photoViewer: The photo viewer controller object requesting this information.
+     - returns: Number of items to display in `photoViewer`.
+     */
+    func numberOfItems(in photoViewer: PhotoViewerController) -> Int
     
-    func topBarLeftItems(forItemAt index: Int)->[UIBarButtonItem]
+    /**
+     Provides the action bar button at a position for an item at an index for customization in a photo viewer.
+     - parameter photoViewer: The photo viewer controller object requesting this information.
+     - parameter index: An index number identifying the index of an item for which the number of actions is requested in `photoViewer`.
+     - returns: The number of actions for an item at `index`.
+     */
+    func numberOfActions(in photoViewer: PhotoViewerController, forItemAt index: Int) -> Int
     
-    func topBarRightItems(forItemAt index: Int)->[UIBarButtonItem]
+    // MARK: - Delegate
     
-    func numberOfActions(forItemAt index: Int)->Int
+    /**
+     Provides the action bar button at a position for an item at an index for customization in a photo viewer.
+     - parameter photoViewer: The photo viewer controller object providing this information.
+     - parameter imageView: An image view provided for customization to display an item at `index`.
+     - parameter index: An index number identifying the index of an item for which an image view is provided in `photoViewer`.
+     */
+    func photoViewer(_ photoViewer: PhotoViewerController, imageView: UIImageView, at index: Int)
     
-    func actionBar(button: UIButton, at position: Int, forItemAt index: Int)
+    /**
+     Provides the action bar button at a position for an item at an index for customization in a photo viewer.
+     - parameter photoViewer: The photo viewer controller object requesting this information.
+     - parameter index: An index number identifying the index of an item for which left top bar items are requested in `photoViewer`.
+     - returns: An array of left top bar items.
+     */
+    func photoViewer(_ photoViewer: PhotoViewerController, topBarLeftItemsAt index: Int) -> [UIBarButtonItem]
     
-    func title(forItemAt index: Int) ->String
+    /**
+     Provides the action bar button at a position for an item at an index for customization in a photo viewer.
+     - parameter photoViewer: The photo viewer controller object requesting this information.
+     - parameter index: An index number identifying the index of an item for which right top bar items are requested in `photoViewer`.
+     - returns: An array of right top bar items.
+     */
+    func photoViewer(_ photoViewer: PhotoViewerController, topBarRightItemsAt index: Int) -> [UIBarButtonItem]
     
-    func caption(forItemAt index: Int)->String
+    /**
+     Provides the action bar button at a position for an item at an index for customization in a photo viewer.
+     - parameter photoViewer: The photo viewer controller object providing this information.
+     - parameter button: An action button at a position provided for customization in `photoViewer`.
+     - parameter position: The position of the provided action button for an item at an `index`.
+     - parameter index: An index number identifying the index of an item for which an action button at a position is provided in `photoViewer`.
+     */
+    func photoViewer(_ photoViewer: PhotoViewerController, actionBarButton button: UIButton, at position: Int, forItemAt index: Int)
     
+    /**
+     Tells the delegate to return the title text for an item at a particular index in a photo viewer controller.
+     - parameter photoViewer: The photo viewer controller object requesting this information.
+     - parameter index: An index number identifying the index of an item for which a title text is requested in `photoViewer`.
+     - returns: title text for an item at `index`.
+     */
+    func photoViewer(_ photoViewer: PhotoViewerController, titleForItemAt index: Int) -> String
+    
+    /**
+     Tells the delegate to return the caption text for an item at a particular index in a photo viewer controller.
+     - parameter photoViewer: The photo viewer controller object requesting this information.
+     - parameter index: An index number identifying the index of an item for which a caption text is requested in `photoViewer`.
+     - returns: caption text for an item at `index`.
+     */
+    func photoViewer(_ photoViewer: PhotoViewerController, captionForItemAt index: Int) -> String
 }
 
 
@@ -41,18 +92,14 @@ public class PhotoViewerController: UIViewController {
     @IBOutlet var captionViewContainer: UIView!
     @IBOutlet var topGuideHeight: NSLayoutConstraint!
     
-    // --------------------------------------------------------------------------------------//
-    // constants
-    // --------------------------------------------------------------------------------------//
+    // MARK: - Constants
     
     let dimBlackColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.6)
     let shortAnimationDuration: TimeInterval = 0.2
     let mediumAnimationDuration: TimeInterval = 0.3
     
     
-    // --------------------------------------------------------------------------------------//
-    // public
-    // --------------------------------------------------------------------------------------//
+    // MARK: - Public properties
     
     public var delegate: PhotoViewerControllerDelegate?{
         didSet{
@@ -62,9 +109,7 @@ public class PhotoViewerController: UIViewController {
     public var initialItemIndex: Int = 0
     
     
-    // --------------------------------------------------------------------------------------//
-    // private
-    // --------------------------------------------------------------------------------------//
+    // MARK: - Private properties
     
     var isAlreadyArranged: Bool = false
     var collectionViewLayout: CollectionViewLayout?
@@ -87,9 +132,8 @@ public class PhotoViewerController: UIViewController {
     
     var lastStatusBarStyle: UIStatusBarStyle?
     
-    // --------------------------------------------------------------------------------------//
-    // init from nib
-    // --------------------------------------------------------------------------------------//
+    // MARK: - Init
+    
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         var bundle: Bundle?
         let podBundle = Bundle(for: PhotoViewerController.self)
@@ -105,10 +149,6 @@ public class PhotoViewerController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    // --------------------------------------------------------------------------------------//
-    // override lifecycle m
-    // --------------------------------------------------------------------------------------//
     
     override public func viewWillAppear(_ animated: Bool) {
         contentView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.height)
@@ -131,9 +171,8 @@ public class PhotoViewerController: UIViewController {
         
     }
     
-    
     public override func viewWillDisappear(_ animated: Bool) {
-        // restore the status bar style to entry level
+
         if let style = lastStatusBarStyle{
             UIApplication.shared.statusBarStyle = style
         }
@@ -145,37 +184,7 @@ public class PhotoViewerController: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionViewLayout = CollectionViewLayout()
-        collectionView.collectionViewLayout = collectionViewLayout!
-        
-        configureTopBar()
-        configureCaptionViewContainer()
-        configureCaptionView()
-        configureCollectionView()
-        configureActionBarContainer()
-        configureActionBar()
-        
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(sender:)))
-        self.view.addGestureRecognizer(pan)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(sender:)))
-        tap.numberOfTapsRequired = 1
-        
-        tap.delegate = self
-        self.contentView.addGestureRecognizer(tap)
-        
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(sender:)))
-        doubleTap.numberOfTapsRequired = 2
-        tap.require(toFail: doubleTap)
-        doubleTap.delegate = self
-        self.contentView.addGestureRecognizer(doubleTap)
-        
-        contentView.backgroundColor = UIColor.clear
-        self.view.backgroundColor = UIColor.black
-        collectionView.backgroundColor = UIColor.clear
-        
-        self.modalPresentationCapturesStatusBarAppearance = true
+        setupAll()
     }
     
     
@@ -189,7 +198,7 @@ public class PhotoViewerController: UIViewController {
         if UIDevice.current.orientation != lastOrientation{
             self.collectionView.setContentOffset(CGPoint(x: self.view.frame.size.width * CGFloat(self.visibleIndex), y: 0), animated: false)
             self.lastOrientation = UIDevice.current.orientation
-            updateArrangement(in: actionBar, for: delegate?.numberOfActions(forItemAt: visibleIndex) ?? 0)
+            updateArrangement(in: actionBar, for: delegate?.numberOfActions(in: self, forItemAt: visibleIndex) ?? 0)
         }
     }
     
@@ -220,10 +229,10 @@ public class PhotoViewerController: UIViewController {
         return .fade
     }
     
-    // --------------------------------------------------------------------------------------//
-    //
-    // --------------------------------------------------------------------------------------//
     
+    
+    
+    // MARK: -
     
     @objc func handleDoubleTapGesture(sender: UITapGestureRecognizer){
         let cell = collectionView.cellForItem(at: currentIndexPath) as! ImageCell
@@ -258,7 +267,7 @@ public class PhotoViewerController: UIViewController {
                     self.captionViewContainer.alpha = alpha
                     self.actionBarContainer.alpha = alpha
                 }else{
-                    if (self.delegate?.numberOfActions(forItemAt: self.visibleIndex) ?? 0) != 0{
+                    if (self.delegate?.numberOfActions(in: self, forItemAt: self.visibleIndex) ?? 0) != 0{
                         self.actionBarContainer.alpha = alpha
                     }
                 }
@@ -282,7 +291,7 @@ public class PhotoViewerController: UIViewController {
                 
                 if currentItemWithCaption == true{
                     self.actionBarContainer.alpha = 1.0
-                    if (self.delegate?.numberOfActions(forItemAt: visibleIndex) ?? 0) != 0{
+                    if (self.delegate?.numberOfActions(in: self, forItemAt: visibleIndex) ?? 0) != 0{
                         self.actionBar.alpha = 1.0
                     }
                 }
@@ -307,7 +316,7 @@ public class PhotoViewerController: UIViewController {
         }
     }
     
-    public func selfDismiss() {
+    public func dismissSelf() {
         self.dismiss(animated: true, completion: {
             self.restoreIdentity()
         })
@@ -319,10 +328,10 @@ public class PhotoViewerController: UIViewController {
         let _:CGFloat = 0.3
         
         let touchPoint = sender.location(in: self.view?.window)
-        
-        if sender.state == UIGestureRecognizerState.began {
+        let state = sender.state
+        if state == .began {
             initialTouchPoint = touchPoint
-        } else if sender.state == UIGestureRecognizerState.changed {
+        } else if state == .changed {
             
             let translation: CGFloat = touchPoint.y - initialTouchPoint.y
             if translation > 0 {
@@ -342,18 +351,19 @@ public class PhotoViewerController: UIViewController {
                     self.handleDissmiss(ended: false)
                 })
             }else{
+                let width = self.view.frame.size.width
+                let height = self.view.frame.size.height
+                self.contentView.frame = CGRect(x: 0, y: 0, width: width, height: height)
                 self.view.backgroundColor = UIColor.black
-                self.contentView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
             }
         }
-        else if sender.state == UIGestureRecognizerState.ended || sender.state ==
-            UIGestureRecognizerState.cancelled {
+        else if state == .ended || state == .cancelled {
             
             if touchPoint.y - initialTouchPoint.y > 100 {
                 self.topBar.isHidden = true
                 self.topGuide.isHidden = true
                 
-                self.selfDismiss()
+                self.dismissSelf()
 
             } else {
                 
@@ -362,74 +372,21 @@ public class PhotoViewerController: UIViewController {
                 })
                 
                 UIView.animate(withDuration: mediumAnimationDuration, animations: {
-                    self.contentView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.size.width, height: self.contentView.frame.size.height)
+                    let width = self.contentView.frame.size.width
+                    let height = self.contentView.frame.size.height
+                    self.contentView.frame = CGRect(x: 0, y: 0, width: width, height: height)
                     self.view.backgroundColor = UIColor.black
                 })
             }
         }
     }
     
-    func configureCaptionViewContainer() {
-        captionViewContainer.backgroundColor = dimBlackColor
-    }
     
-    func configureCaptionView(){
-        captionLabel.lineBreakMode = .byTruncatingTail
-        captionLabel.numberOfLines = 0
-        captionLabel.textColor = UIColor.white
-        captionLabel.backgroundColor = UIColor.clear
-        captionLabel.adjustsFontSizeToFitWidth = false
-        
-        captionView.isUserInteractionEnabled = false
-        captionView.backgroundColor = UIColor.clear
-        captionView.translatesAutoresizingMaskIntoConstraints = false
-        let left = NSLayoutConstraint(item: captionView, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .leftMargin, multiplier: 1, constant: 0)
-        let right = NSLayoutConstraint(item: captionView, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .rightMargin, multiplier: 1, constant: 0)
-        self.view.addConstraints([left, right])
-    }
-    
-    
-    func configureTopBar(){
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topGuide.backgroundColor = dimBlackColor
-        topGuide.translatesAutoresizingMaskIntoConstraints = false
-        
-        topBar.setBackgroundImage(UIImage(), for: .default)
-        topBar.shadowImage = UIImage()
-        topBar.tintColor = UIColor.white
-        topBar.isTranslucent = true
-        topBar.backgroundColor = dimBlackColor
-    }
-    
-    func configureActionBarContainer() {
-        actionBarContainer.backgroundColor = dimBlackColor
-    }
-    
-    func configureActionBar(){
-        actionBar.backgroundColor = UIColor.clear
-        actionBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        let left = NSLayoutConstraint(item: actionBar, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .leftMargin, multiplier: 1, constant: 0)
-        let right = NSLayoutConstraint(item: actionBar, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .rightMargin, multiplier: 1, constant: 0)
-        
-        self.view.addConstraints([left, right])
-    }
-    
-    func configureCollectionView(){
-        collectionView.backgroundColor = UIColor.black
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.isPagingEnabled = true
-        
-        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.dataSource = self
-        collectionView.delegate = self
-    }
     
     /* ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...... ... ... ... ... ... ... ... ... ... */
     
     func configButton(at position: Int, forItemAt index: Int){
-        delegate?.actionBar(button: actionButtons[position], at: position, forItemAt: index)
+        delegate?.photoViewer(self, actionBarButton: actionButtons[position], at: position, forItemAt: index)
         
         if let image = actionButtons[position].backgroundImage(for: .normal){
             actionButtons[position].setBackgroundImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -518,14 +475,14 @@ public class PhotoViewerController: UIViewController {
             actionButtons[i].removeFromSuperview()
         }
         actionButtons = [EasyToClickButton]()
-        let numberOfActions = self.delegate?.numberOfActions(forItemAt: index) ?? 0
+        let numberOfActions = self.delegate?.numberOfActions(in: self, forItemAt: index) ?? 0
         arrange(numberOfItems: numberOfActions, in: actionBar)
         configButtons(forItemAt: index, numberOfActions: numberOfActions)
         
     }
     
     func displayCaptionForItem(at index: Int){
-        if let caption = delegate?.caption(forItemAt: index){
+        if let caption = delegate?.photoViewer(self, captionForItemAt: index){
             UIView.animate(withDuration: shortAnimationDuration, animations: {
                 if caption != ""{
                     if self.alphaZeroByTap == false{
@@ -576,9 +533,9 @@ public class PhotoViewerController: UIViewController {
             topGuide.alpha = 1.0
         }
         
-        let title = delegate?.title(forItemAt: index) ?? ""
-        let leftItems = delegate?.topBarLeftItems(forItemAt: index) ?? [UIBarButtonItem]()
-        let rightItems = delegate?.topBarRightItems(forItemAt: index) ?? [UIBarButtonItem]()
+        let title = delegate?.photoViewer(self, titleForItemAt: index) ?? ""
+        let leftItems = delegate?.photoViewer(self, topBarLeftItemsAt: index) ?? [UIBarButtonItem]()
+        let rightItems = delegate?.photoViewer(self, topBarRightItemsAt: index) ?? [UIBarButtonItem]()
         
         topBar.topItem?.title = title
         topBar.topItem?.leftBarButtonItems = leftItems
@@ -605,7 +562,7 @@ public class PhotoViewerController: UIViewController {
     
     
     func setupInitial(){
-        let numberOfImages = delegate?.numberOfItems() ?? 0
+        let numberOfImages = delegate?.numberOfItems(in: self) ?? 0
         
         if initialItemIndex > numberOfImages - 1{
             initialItemIndex = numberOfImages - 1
@@ -619,6 +576,133 @@ public class PhotoViewerController: UIViewController {
     }
 }
 
+// MARK: - Configure methods
+
+extension PhotoViewerController {
+    
+    func setupAll() {
+        initSelf()
+        initContentView()
+        setupCollectionView()
+        setupTopBar()
+        setupCaptionViewContainer()
+        setupCaptionView()
+        setupActionBarContainer()
+        setupActionBar()
+    }
+    
+    func initSelf() {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(sender:)))
+        self.view.addGestureRecognizer(pan)
+        
+        self.view.backgroundColor = UIColor.black
+        self.modalPresentationCapturesStatusBarAppearance = true
+    }
+    
+    func initContentView() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(sender:)))
+        tap.numberOfTapsRequired = 1
+        
+        tap.delegate = self
+        self.contentView.addGestureRecognizer(tap)
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapGesture(sender:)))
+        doubleTap.numberOfTapsRequired = 2
+        tap.require(toFail: doubleTap)
+        doubleTap.delegate = self
+        contentView.addGestureRecognizer(doubleTap)
+        
+        contentView.backgroundColor = UIColor.clear
+    }
+    
+    func setupCollectionView(){
+        
+        collectionViewLayout = CollectionViewLayout()
+        collectionView.collectionViewLayout = collectionViewLayout!
+        
+        collectionView.backgroundColor = UIColor.black
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        
+        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        collectionView.backgroundColor = UIColor.clear
+    }
+    
+    func setupTopBar(){
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        topGuide.backgroundColor = dimBlackColor
+        topGuide.translatesAutoresizingMaskIntoConstraints = false
+        
+        topBar.setBackgroundImage(UIImage(), for: .default)
+        topBar.shadowImage = UIImage()
+        topBar.tintColor = UIColor.white
+        topBar.isTranslucent = true
+        topBar.backgroundColor = dimBlackColor
+    }
+    
+    func setupCaptionViewContainer() {
+        captionViewContainer.backgroundColor = dimBlackColor
+    }
+    
+    func setupCaptionView(){
+        captionLabel.lineBreakMode = .byTruncatingTail
+        captionLabel.numberOfLines = 0
+        captionLabel.textColor = UIColor.white
+        captionLabel.backgroundColor = UIColor.clear
+        captionLabel.adjustsFontSizeToFitWidth = false
+        
+        captionView.isUserInteractionEnabled = false
+        captionView.backgroundColor = UIColor.clear
+        captionView.translatesAutoresizingMaskIntoConstraints = false
+        let left = NSLayoutConstraint(item: captionView,
+                                      attribute: .left,
+                                      relatedBy: .equal,
+                                      toItem: self.view,
+                                      attribute: .leftMargin,
+                                      multiplier: 1,
+                                      constant: 0)
+        let right = NSLayoutConstraint(item: captionView,
+                                       attribute: .right,
+                                       relatedBy: .equal,
+                                       toItem: self.view,
+                                       attribute: .rightMargin,
+                                       multiplier: 1,
+                                       constant: 0)
+        self.view.addConstraints([left, right])
+    }
+    
+    func setupActionBarContainer() {
+        actionBarContainer.backgroundColor = dimBlackColor
+    }
+    
+    func setupActionBar(){
+        actionBar.backgroundColor = UIColor.clear
+        actionBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        let left = NSLayoutConstraint(item: actionBar,
+                                      attribute: .left,
+                                      relatedBy: .equal,
+                                      toItem: self.view,
+                                      attribute: .leftMargin,
+                                      multiplier: 1,
+                                      constant: 0)
+        let right = NSLayoutConstraint(item: actionBar,
+                                       attribute: .right,
+                                       relatedBy: .equal,
+                                       toItem: self.view,
+                                       attribute: .rightMargin,
+                                       multiplier: 1,
+                                       constant: 0)
+        
+        self.view.addConstraints([left, right])
+    }
+}
+
+// MARK: - Gesture recognizer delegate
 
 extension PhotoViewerController: UIGestureRecognizerDelegate{
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -626,210 +710,7 @@ extension PhotoViewerController: UIGestureRecognizerDelegate{
     }
 }
 
-extension PhotoViewerController: UICollectionViewDelegate, UICollectionViewDataSource{
-    
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return delegate?.numberOfItems() ?? 0
-    }
-    
-    
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ImageCell
-        
-        delegate?.photoViewer(imageView: cell.imageView!, at: indexPath.row)
-        
-        return cell
-    }
-    
-    
-    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        if cellAllocatingForTheFirstTime{
-            setupInitial()
-            cellAllocatingForTheFirstTime = false
-        }
-        
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let visibleIndexPath = calcualteVisibleIndexPath()
-        visibleIndex = visibleIndexPath.row
-        currentIndexPath = visibleIndexPath
-        updateSubviews(forItemAt: visibleIndex)
-    }
-    
-    
-    func calcualteVisibleIndexPath()->IndexPath{
-        
-        var visibleRect = CGRect()
-        visibleRect.origin = collectionView.contentOffset
-        visibleRect.size = collectionView.bounds.size
-        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
-        let visibleIndexPath: IndexPath = collectionView.indexPathForItem(at: visiblePoint)!
-        
-        return visibleIndexPath
-    }
-   
-    
-    
-    
-}
-
-public class CollectionViewLayout: UICollectionViewFlowLayout {
-    
-    let innerSpace: CGFloat = 10.0
-    
-    var mostRecentOffset : CGPoint = CGPoint()
-    
-    override init() {
-        super.init()
-        self.minimumInteritemSpacing = innerSpace
-        self.minimumLineSpacing = 0.0
-        self.scrollDirection = .horizontal
-    }
-    
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    
-    func itemWidth() -> CGFloat {
-        return collectionView!.frame.size.width
-    }
-    
-    func itemHeight() -> CGFloat {
-        return collectionView!.frame.size.height
-    }
-    
-    
-    
-    override public var itemSize: CGSize {
-        set {
-            self.itemSize = CGSize(width: itemWidth(), height: itemHeight())
-        }
-        get {
-            return CGSize(width: itemWidth(), height: itemHeight())
-        }
-    }
-    
-}
-
-public class ImageCell: UICollectionViewCell{
-    
-    var imageView: UIImageView?
-    var scrollView: UIScrollView?
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        scrollView = makeScrollView()
-        imageView = makeImageView()
-        scrollView?.addSubview(imageView!)
-        contentView.addSubview(scrollView!)
-        self.backgroundColor = UIColor.clear
-        self.autoresizingMask = [.flexibleHeight,.flexibleWidth]
-        
-    }
-    
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-    }
-
-    
-    func makeScrollView()->UIScrollView{
-        let scrollView = UIScrollView()
-        scrollView.isScrollEnabled = true
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = UIColor.clear
-        scrollView.delegate = self
-        scrollView.minimumZoomScale = 0.2
-        scrollView.maximumZoomScale = 5.0
-        scrollView.backgroundColor = UIColor.clear
-        
-        return scrollView
-    }
-    
-    func makeImageView() -> UIImageView{
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.isUserInteractionEnabled = false
-        imageView.backgroundColor = UIColor.clear
-        return imageView
-    }
-    
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        layoutScrollView()
-        layoutImageView()
-    }
-    
-    func layoutScrollView(){
-        var scrollViewFrame = scrollView?.frame
-        scrollViewFrame?.size.height = self.frame.size.height
-        scrollViewFrame?.size.width = self.frame.size.width
-        scrollViewFrame?.origin.x = 0
-        scrollViewFrame?.origin.y = 0
-        scrollView?.frame = scrollViewFrame!
-        scrollView?.contentSize = self.contentView.frame.size
-    }
-    
-    func layoutImageView(){
-        var frame = imageView?.frame
-        frame?.size.height = self.frame.size.height
-        frame?.size.width = self.frame.size.width
-        frame?.origin.x = 0
-        frame?.origin.y = 0
-        imageView?.frame = frame!
-    }
-    
-    
-    public func handleDoubleTap(sender: UITapGestureRecognizer){
-        let touchPoint = sender.location(in: scrollView)
-        if (scrollView?.zoomScale ?? 1.0) > 1.0{
-            scrollView?.setZoomScale(1.0, animated: true)
-        }else{
-            scrollView?.zoom(toPoint: touchPoint, scale: 3.0, animated: true)
-        }
-    }
-    
-}
-
-extension ImageCell: UIScrollViewDelegate{
-
-    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return self.imageView
-    }
-
-    public func scrollViewDidZoom(_ scrollView: UIScrollView) {
-
-        let subView = scrollView.subviews[0]
-        let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * CGFloat(0.5), 0.0)
-        let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * CGFloat(0.5), 0.0)
-        
-        subView.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX, y: scrollView.contentSize.height * 0.5 + offsetY)
-    }
-
-
-    public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        if scale <= 1.0{
-            UIView.animate(withDuration: 0.2, animations: {
-                view?.transform = CGAffineTransform.identity
-            })
-        }
-    }
-}
-
+// MARK: - Scroll View
 
 extension UIScrollView{
     
@@ -867,11 +748,4 @@ extension UIScrollView{
     }
 }
 
-class EasyToClickButton : UIButton {
-    override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        let relativeFrame = self.bounds
-        let hitTestEdgeInsets = UIEdgeInsetsMake(-10, -10, -10, -10)
-        let hitFrame = UIEdgeInsetsInsetRect(relativeFrame, hitTestEdgeInsets)
-        return hitFrame.contains(point)
-    }
-}
+
