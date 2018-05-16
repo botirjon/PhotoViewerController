@@ -7,7 +7,7 @@
 //
 import UIKit
 
-public protocol PhotoViewerControllerDelegate {
+public protocol PhotoViewerControllerDelegate: NSObjectProtocol {
     
     // MARK: - Data Source
     
@@ -101,13 +101,11 @@ public class PhotoViewerController: UIViewController {
     
     // MARK: - Public properties
     
-    public var delegate: PhotoViewerControllerDelegate?{
-        didSet{
-            
-        }
-    }
+    weak open var delegate: PhotoViewerControllerDelegate?
     public var initialItemIndex: Int = 0
     
+    public var whenFullScreen: ((PhotoViewerController) -> Void)?
+    public var whenDetailed: ((PhotoViewerController) -> Void)?
     
     // MARK: - Private properties
     
@@ -131,6 +129,8 @@ public class PhotoViewerController: UIViewController {
     }
     
     var lastStatusBarStyle: UIStatusBarStyle?
+    
+    
     
     // MARK: - Init
     
@@ -230,8 +230,6 @@ public class PhotoViewerController: UIViewController {
     }
     
     
-    
-    
     // MARK: -
     
     @objc func handleDoubleTapGesture(sender: UITapGestureRecognizer){
@@ -253,6 +251,8 @@ public class PhotoViewerController: UIViewController {
     }
     
     func setAlphaOnTap(alpha: CGFloat){
+        
+        alpha == 0.0 ? whenDetailed?(self) : whenFullScreen?(self)
         
         UIView.animate(withDuration: shortAnimationDuration) {
             self.topBar.alpha = alpha
