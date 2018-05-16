@@ -106,6 +106,7 @@ public class PhotoViewerController: UIViewController {
     
     public var whenFullScreen: ((PhotoViewerController) -> Void)?
     public var whenDetailed: ((PhotoViewerController) -> Void)?
+    public var completion: (() -> Void)?
     
     // MARK: - Private properties
     
@@ -179,6 +180,7 @@ public class PhotoViewerController: UIViewController {
         
         topGuideHeight.constant = 20
         restoreIdentity()
+        completion?()
     }
     
     
@@ -252,8 +254,6 @@ public class PhotoViewerController: UIViewController {
     
     func setAlphaOnTap(alpha: CGFloat){
         
-        alpha == 0.0 ? whenDetailed?(self) : whenFullScreen?(self)
-        
         UIView.animate(withDuration: shortAnimationDuration) {
             self.topBar.alpha = alpha
             self.topGuide.alpha = alpha
@@ -262,7 +262,9 @@ public class PhotoViewerController: UIViewController {
             if alpha == 0.0{
                 self.actionBarContainer.alpha = alpha
                 self.captionViewContainer.alpha = alpha
+                self.whenDetailed?(self)
             }else{
+                self.whenFullScreen?(self)
                 if self.currentItemWithCaption == true{
                     self.captionViewContainer.alpha = alpha
                     self.actionBarContainer.alpha = alpha
@@ -319,6 +321,7 @@ public class PhotoViewerController: UIViewController {
     public func dismissSelf() {
         self.dismiss(animated: true, completion: {
             self.restoreIdentity()
+            self.completion?()
         })
     }
     
